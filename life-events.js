@@ -56,6 +56,7 @@ const CONDITION_REGISTRY = {
   //           Do not add 'married' to conditions arrays; use spouses[] as source of truth.
   ever_widowed:      'Has lost a spouse to death; biographical record of bereavement',
   ever_disgraced:    'Was publicly disgraced; shame has faded but the memory persists',
+  retired:           'Has genuinely stepped back from working life — rare, requires real wealth or privilege',
   divorced:          'Marriage dissolved (rare, scandalous)',
   childless:         'No living children (affects inheritance anxiety)',
   has_children:      'Has at least one living child',
@@ -314,8 +315,16 @@ const LIFE_EVENTS = [
     isMajor: true,
     minGapYears: 6,
     flavour: {
-      male:   'A fever kept him bedridden for weeks; he emerged gaunt but alive.',
-      female: 'A fever kept her bedridden for weeks; she emerged gaunt but alive.',
+      male: [
+        'A fever kept him bedridden for weeks; he emerged gaunt but alive.',
+        'He was ill enough that people began making arrangements. He did not die, which surprised several of them.',
+        'The fever lasted three weeks. He spent the fourth week deciding what the experience had changed, if anything.',
+      ],
+      female: [
+        'A fever kept her bedridden for weeks; she emerged gaunt but alive.',
+        'She was ill enough to frighten the household. She recovered, though the recovery took longer than the illness.',
+        'The sickness passed but left her diminished for months — thinner, slower to tire, more careful about cold.',
+      ],
     },
     ageGroups:  ['young','middle','old'],
     weights: {
@@ -350,8 +359,16 @@ const LIFE_EVENTS = [
     pool: 'biographical',
     isMajor: false,
     flavour: {
-      male:   'Determined to regain his strength, he threw himself into physical discipline.',
-      female: 'Determined to regain her strength, she threw herself into physical discipline.',
+      male: [
+        'Determined to regain his strength, he threw himself into physical discipline.',
+        'The illness had stripped him down. He spent months rebuilding, finding it slower than he had expected.',
+        'He recovered by degrees, marking progress in what he could do that he had not managed the week before.',
+      ],
+      female: [
+        'Determined to regain her strength, she threw herself into physical discipline.',
+        'The recovery was long. She measured it in small returns — the walk she could finish, the task she could complete.',
+        'She came back to herself slowly, and not entirely the same self that had been taken down.',
+      ],
     },
     ageGroups:  ['young','middle','old'],
     weights: {
@@ -482,8 +499,16 @@ const LIFE_EVENTS = [
     pool: 'biographical',
     isMajor: false,
     flavour: {
-      male:   'Loss drove him inward; he spent months in solitary reflection.',
-      female: 'Loss drove her inward; she spent months in solitary reflection.',
+      male: [
+        'Loss drove him inward; he spent months in solitary reflection.',
+        'He did not handle the loss publicly. He handled it alone, over a long time, in ways that left marks.',
+        'The grief took longer than he had thought it would. He emerged from it changed in ways he could not fully name.',
+      ],
+      female: [
+        'Loss drove her inward; she spent months in solitary reflection.',
+        'She grieved thoroughly and privately. When she came through it she was quieter than she had been, and harder to read.',
+        'The loss required time she had not expected to spend on it. She gave the time. There was no other option.',
+      ],
     },
     ageGroups:  ['young','middle','old'],
     weights: {
@@ -629,8 +654,16 @@ const LIFE_EVENTS = [
     pool: 'biographical',
     isMajor: false,
     flavour: {
-      male:   'He travelled further from home than ever before, seeing new faces and hearing new tongues.',
-      female: 'She travelled further from home than ever before, seeing new faces and hearing new tongues.',
+      male: [
+        'He travelled further from home than ever before, seeing new faces and hearing new tongues.',
+        'He left the range of people who knew his name and spent several months in that condition, which suited him better than expected.',
+        'The journey took him far enough from home that home became an abstraction he could think about rather than simply inhabit.',
+      ],
+      female: [
+        'She travelled further from home than ever before, seeing new faces and hearing new tongues.',
+        'She went somewhere she had never been, which was unusual enough that she paid careful attention the entire time.',
+        'The journey required more of her than she had expected and gave back more than she had hoped.',
+      ],
     },
     ageGroups:  ['young','middle','old'],
     weights: {
@@ -1146,8 +1179,16 @@ const LIFE_EVENTS = [
     pool: 'biographical',
     isMajor: false,
     flavour: {
-      male:   'He took a wife, binding two households together.',
-      female: 'She was given in marriage, binding two households together.',
+      male: [
+        'He took a wife, binding two households together.',
+        'He married. The arrangement made sense practically; whether it would make sense in other ways remained to be seen.',
+        'A wife came into his household. He was not certain what he had expected, but he had not expected how much adjustment it required.',
+      ],
+      female: [
+        'She was given in marriage, binding two households together.',
+        'She married. She had opinions about the match that were not the primary consideration in making it.',
+        'She entered her husband\'s household. The first months were an exercise in understanding the rules of a different world.',
+      ],
     },
     ageGroups:  ['young','middle'],
     weights: {
@@ -1211,8 +1252,16 @@ const LIFE_EVENTS = [
     minGapYears: 2,
     isMajor: true,
     flavour: {
-      male:   'His wife bore him a child. He held the infant and understood something new about the world.',
-      female: 'She bore a child. The birth was hard but the child lived and she was changed by it.',
+      male: [
+        'His wife bore him a child. He held the infant and understood something new about the world.',
+        'The child came, and with it something he had not prepared for — an attachment that rearranged everything else.',
+        'He had thought himself ready for fatherhood. He had been wrong about what it would feel like.',
+      ],
+      female: [
+        'She bore a child. The birth was hard but the child lived and she was changed by it.',
+        'Her first child arrived. She had not understood, until the moment it was placed in her arms, how much of herself she would give to it.',
+        'The birth took longer than expected. The child lived. She spent the next three days learning who she now was.',
+      ],
     },
     ageGroups:  ['young','middle'],
     weights: {
@@ -1580,8 +1629,16 @@ const LIFE_EVENTS = [
     minGapYears: 1,
     isMajor: false,
     flavour: {
-      male:   'His wife lost the child before its time. The house was quiet for weeks.',
-      female: 'She lost the child before its time. She did not speak of it openly.',
+      male: [
+        'His wife lost the child before its time. The house was quiet for weeks.',
+        'The pregnancy ended before it had properly begun. He did not know what to say, so he said nothing useful.',
+        'She lost the child. He learned the limits of what he could do for her grief, which was most of it.',
+      ],
+      female: [
+        'She lost the child before its time. She did not speak of it openly.',
+        'The child was lost early. She marked it privately and continued, which was the only thing available to her.',
+        'Another loss before it had become a child in any way others would recognise. She grieved it nonetheless.',
+      ],
     },
     ageGroups:  ['young','middle'],
     weights: {
@@ -2485,7 +2542,7 @@ const LIFE_EVENTS = [
       noble:   { young: 10, middle: 7  },
     },
     sexWeightMod: { male: 0, female: -999 },
-    requireConditions: [], excludeConditions: ['lame','exiled'], conditionWeightMods: { veteran: -5 },
+    requireConditions: [], excludeConditions: ['lame','exiled'], conditionWeightMods: { veteran: -5 , retired: -999 },
     rootlessWeightMod: 2,
     phaseWeightMods: {},
     oceanWeightMod: { E: +1, C: +0.5, O: +0.5 },
@@ -2496,14 +2553,10 @@ const LIFE_EVENTS = [
       classChange: null, deityChange: null,
     },
     followOn: [
-      { eventId: 'war_wound',          weightMod: +15, duration: 1 },
+      { eventId: 'serious_wound',          weightMod: +15, duration: 1 },
       { eventId: 'lost_comrade',       weightMod: +12, duration: 1 },
       { eventId: 'enriched_from_plunder', weightMod: +8,  duration: 1 },
-    ],
-  },
-
-  {
-    id: 'war_wound',
+    ],d: 'war_wound',
     label: 'Wounded in battle',
     pool: 'biographical',
     isMajor: true,
@@ -2822,7 +2875,7 @@ const LIFE_EVENTS = [
       attributes: null, conditions: null, classChange: null, deityChange: null,
     },
     followOn: [
-      { eventId: 'war_wound',             weightMod: +6,  duration: 1 },
+      { eventId: 'serious_wound',             weightMod: +6,  duration: 1 },
       { eventId: 'commendation_received', weightMod: +8,  duration: 2 },
       { eventId: 'sergeant_commands',     weightMod: +10, duration: 4 },
       { eventId: 'sergeant_blamed',       weightMod: +4,  duration: 1 },
@@ -3068,7 +3121,7 @@ const LIFE_EVENTS = [
       lia_kavair:   { young: 5,  middle: 12, old: 10 },
     },
     sexWeightMod: null,
-    requireConditions: [], excludeConditions: ['ruined'], conditionWeightMods: { prosperous: +5 },
+    requireConditions: [], excludeConditions: ['ruined'], conditionWeightMods: { prosperous: +5 , retired: -999 },
     rootlessWeightMod: 1,
     phaseWeightMods: {},
     effects: {
@@ -3079,6 +3132,7 @@ const LIFE_EVENTS = [
     },
     followOn: [],
   },
+
   {
     id: 'bad_trade_venture',
     label: 'Bad trade venture',
@@ -3175,7 +3229,7 @@ const LIFE_EVENTS = [
       conditions: { add: [], remove: ['indebted','ruined'] },
       classChange: null, deityChange: null,
     },
-    followOn: [],  followOn: [],
+    followOn: [],
   },
 
   {
@@ -3270,7 +3324,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: ['outlawed'], conditionWeightMods: { guild_member: +6, guild_officer: +4,
       guild_master: +4,
-    },
+      retired: -999 },
     rootlessWeightMod: -4,
     phaseWeightMods: {},
     effects: {
@@ -3281,11 +3335,7 @@ const LIFE_EVENTS = [
       { eventId: 'accused_of_crime',    weightMod: +6, duration: 2 },
       { eventId: 'public_humiliation',  weightMod: +8, duration: 2 },
       { eventId: 'feud_involvement',    weightMod: +6, duration: 3 },
-    ],
-  },
-
-  {
-    id: 'long_distance_trade',
+    ],d: 'long_distance_trade',
     label: 'Long-distance trade journey',
     pool: 'biographical',
     isMajor: false,
@@ -3346,45 +3396,15 @@ const LIFE_EVENTS = [
   },
   {
     id: 'pilgrimage',
-    label: 'Went on pilgrimage',
+    label: 'Made a pilgrimage',
     pool: 'biographical',
     isMajor: false,
+    minGapYears: 8,
     flavour: {
-      male:   'He walked to a holy site — Thay, Olokand, the Swordstones, or a lesser shrine in a nearby canton. The road was the point as much as the destination.',
-      female: 'A pilgrimage. The walking gave her time to think that the ordinary round of duties did not.',
+      male:   'He walked to the shrine. The road was longer than he expected and the shrine smaller, but the distance was the point.',
+      female: 'She walked to the shrine. The journey changed something — not in the way she expected, which was perhaps what it was supposed to do.',
     },
-    excludeClasses: ['merchant', 'warrior', 'soldier', 'artisan'],
-    ageGroups:  ['young','middle','old'],
-    weights: {
-      clergy: { young: 12, middle: 10, old: 8 },
-      noble:  { young: 5,  middle: 7,  old: 9 },
-      peasant:{ young: 3,  middle: 4,  old: 5 },
-      unguilded:    { young: 4, middle: 5, old: 6 },
-    },
-    sexWeightMod: { male: 0, female: +2 },
-    requireConditions: [], excludeConditions: ['pilgrim','lame'], conditionWeightMods: { devout: +8, faith_crisis: +6 },
-    rootlessWeightMod: 2,
-    phaseWeightMods: {},
-    oceanWeightMod: { O: +2, A: +1.5, C: +1 },
-    effects: {
-      ops: 1, skills: [{ skill: 'Condition', ops: 1 }], totalOPs: 2,
-      attributes: null,
-      conditions: { add: ['pilgrim','devout'], remove: ['faith_crisis'] },
-      classChange: null, deityChange: null,
-    },
-    followOn: [],
-  },
-
-  {
-    id: 'church_advancement',
-    label: 'Advanced within the church hierarchy',
-    pool: 'biographical',
-    isMajor: true,
-    flavour: {
-      male:   'Something shifted in how his superiors saw him — a better posting, a named role in the chapter, or simply a conversation with the Rekela that he had not expected to go well. He was given more responsibility. He was not sure he had asked for it.',
-      female: 'Her superior assigned her a wider brief — more parishes, a deputy role, responsibility for the chapter accounts. It was recognition, of a kind. The work increased accordingly.',
-    },
-    excludeClasses: ['noble', 'merchant', 'warrior', 'soldier', 'artisan', 'peasant', 'unguilded'],
+    excludeClasses: ['pagaelin','walker_shaman','priest_naveh','destitute'],
     ageGroups:  ['young','middle','old'],
     weights: {
       clergy: { young: 8, middle: 14, old: 12 },
@@ -3521,7 +3541,7 @@ const LIFE_EVENTS = [
     },
     followOn: [
       { eventId: 'parish_hardship',      weightMod: +8, duration: 3 },
-      { eventId: 'church_advancement',   weightMod: +4, duration: 5 },
+      { eventId: 'ordained_as_acolyte',   weightMod: +4, duration: 5 },
     ],
   },
  {
@@ -3647,7 +3667,7 @@ const LIFE_EVENTS = [
     },
     followOn: [
       { eventId: 'military_campaign',    weightMod: +10, duration: 4 },
-      { eventId: 'war_wound',            weightMod: +4,  duration: 3 },
+      { eventId: 'serious_wound',            weightMod: +4,  duration: 3 },
       { eventId: 'lost_comrade',         weightMod: +6,  duration: 3 },
       { eventId: 'religious_devotion',   weightMod: +6,  duration: 2 },
     ],
@@ -4027,7 +4047,7 @@ const LIFE_EVENTS = [
       artisan: { young: 4, middle: 4, old: 4 },
     },
     sexWeightMod: null,
-    requireConditions: [], excludeConditions: [], conditionWeightMods: {},
+    requireConditions: [], excludeConditions: [], conditionWeightMods: {retired: -999 },
     rootlessWeightMod: -8,
     phaseWeightMods: { 'journeyman': -10 },
     effects: {
@@ -4041,7 +4061,6 @@ const LIFE_EVENTS = [
     ],
   },
 
-  // ═══════════════════════════════════════════════════════════════════════════
   // PEASANT EVENTS
   // ═══════════════════════════════════════════════════════════════════════════
   {
@@ -4174,7 +4193,7 @@ const LIFE_EVENTS = [
     },
     followOn: [
       { eventId: 'discharged_from_levy', weightMod: +20, duration: 3 },
-      { eventId: 'war_wound',            weightMod: +10, duration: 1 },
+      { eventId: 'serious_wound',            weightMod: +10, duration: 1 },
       { eventId: 'lost_comrade',         weightMod: +8,  duration: 1 },
       { eventId: 'camp_follower_joins',  weightMod: +10, duration: 1 },
     ],
@@ -4381,7 +4400,7 @@ const LIFE_EVENTS = [
       { eventId: 'serious_wound',        weightMod: +6,  duration: 2 },
       { eventId: 'husband_returns_from_levy', weightMod: +8,  duration: 4 },
       { eventId: 'lover_returns_from_levy',   weightMod: +6,  duration: 4 },
-      { eventId: 'war_wound',                 weightMod: +4,  duration: 2 },
+      { eventId: 'serious_wound',                 weightMod: +4,  duration: 2 },
       { eventId: 'public_humiliation',        weightMod: +4,  duration: 1 }, // word gets back
     ],
   },
@@ -4589,7 +4608,7 @@ const LIFE_EVENTS = [
       clergy:       { middle: 10, old: 14 },
     },
     sexWeightMod: null,
-    requireConditions: [], excludeConditions: [], conditionWeightMods: { veteran: +3, guild_master: +4 },
+    requireConditions: [], excludeConditions: [], conditionWeightMods: { veteran: +3, guild_master: +4 , retired: +12 },
     rootlessWeightMod: -2,
     phaseWeightMods: {},
     effects: {
@@ -4601,7 +4620,6 @@ const LIFE_EVENTS = [
     ],
   },
 
-  // ── PROTÉGÉ FINDS THEIR PATH ──────────────────────────────────────────────────
   // EMIT-ONLY: driven purely by follow-on from mentor_a_youngster (weight 0 base).
   // The protégé contact is updated to 'former_protege' in handleContactCreation.
   // Longer follow-on duration than apprentice_graduates — informal mentorships
@@ -4682,42 +4700,13 @@ const LIFE_EVENTS = [
     label: 'Recognised for wisdom or experience',
     pool: 'biographical',
     isMajor: false,
+    minGapYears: 8,
     flavour: {
-      male:   'People came to him for counsel. He had earned the right to give it.',
-      female: 'People sought her out. She had seen enough to speak plainly about most things.',
+      male:   'People started asking his opinion before acting. He noticed when this began. He did not comment on it.',
+      female: 'She became the person others consulted. This had been happening for years; it was only recently that she recognised it as a pattern.',
     },
-    ageGroups:  ['middle','old'],
-    weights: {
-      noble:        { middle: 6,  old: 12 },
-      merchant:     { middle: 6,  old: 12 },
-      warrior:      { middle: 4,  old: 8  },
-      soldier:      { middle: 4,  old: 8  },
-      peasant:      { middle: 5,  old: 10 },
-      unguilded:    { middle: 5, old: 10 },
-      artisan: { middle: 6,  old: 12 },
-      clergy:       { middle: 8,  old: 15 },
-    },
-    sexWeightMod: null,
-    requireConditions: [], excludeConditions: ['disgraced','recognised_elder'], conditionWeightMods: { veteran: +3, pilgrim: +4, guild_master: +4 },
-    rootlessWeightMod: -2,
-    phaseWeightMods: {},
-    effects: {
-      ops: 1, skills: [{ skill: 'Folklore', ops: 1 }], totalOPs: 2,
-      attributes: null, conditions: { add: ['recognised_elder'], remove: [] }, classChange: null, deityChange: null,
-    },
-    followOn: [],
-  },
-
-  {
-    id: 'withdrew_from_affairs',
-    label: 'Withdrew from public life',
-    pool: 'biographical',
-    isMajor: false,
-    flavour: {
-      male:   'He stopped seeking and was no longer sought. Quietude suited him.',
-      female: 'She stepped back from the roles that had defined her. There was relief in it.',
-    },
-    ageGroups:  ['old'],
+    excludeClasses: ['pagaelin','walker_shaman','destitute'],
+    ageGroups: ['old'],
     weights: {
       noble:        { old: 10 },
       merchant:     { old: 10 },
@@ -4729,18 +4718,16 @@ const LIFE_EVENTS = [
       clergy:       { old: 8  },
     },
     sexWeightMod: null,
-    requireConditions: [], excludeConditions: [], conditionWeightMods: { chronic_illness: +8, lame: +6 },
+    requireConditions: [], excludeConditions: ['retired'], conditionWeightMods: { chronic_illness: +8, lame: +6 },
     rootlessWeightMod: -3,
     phaseWeightMods: {},
     effects: {
       ops: 1, skills: null, totalOPs: 1,
       attributes: null, conditions: null, classChange: null, deityChange: null,
     },
-    followOn: [],
+    followOn: [], // additional old-age and mid-life events appended
   },
 
-
-  // additional old-age and mid-life events appended
   {
     id: 'remarriage_older',
     label: 'Remarried later in life',
@@ -4824,8 +4811,16 @@ const LIFE_EVENTS = [
     minGapYears: 2,
     isMajor: false,
     flavour: {
-      male:   'He held the child of his child and understood that time had passed.',
-      female: 'She held the grandchild and felt the full weight and joy of years.',
+      male: [
+        'He held the child of his child and understood that time had passed.',
+        'A grandchild arrived. He found he minded being old considerably less than he had expected.',
+        'He held the infant and noted that he was now the old man in this story, which had crept up on him.',
+      ],
+      female: [
+        'She held the grandchild and felt the full weight and joy of years.',
+        'The grandchild was born and placed in her arms and she understood, again, what all of it had been for.',
+        'Another generation. She sat with this fact for a while before deciding it was a good one.',
+      ],
     },
     ageGroups:  ['middle','old'],
     weights: { noble: { middle: 0, old: 0 }, merchant: { middle: 6, old: 10 }, warrior: { middle: 5, old: 9 }, soldier: { middle: 5, old: 9 }, peasant: { middle: 7, old: 12 },
@@ -5633,12 +5628,13 @@ const LIFE_EVENTS = [
     ageGroups:  ['middle','old'],
     weights: { noble: { middle: 5, old: 10 }, merchant: { middle: 4, old: 8 }, clergy: { middle: 6, old: 12 } },
     sexWeightMod: null,
-    requireConditions: [], excludeConditions: ['writing_chronicle'], conditionWeightMods: { devout: +4, veteran: +4, pilgrim: +4 },
+    requireConditions: [], excludeConditions: ['writing_chronicle'], conditionWeightMods: { devout: +4, veteran: +4, pilgrim: +4 , retired: +15 },
     rootlessWeightMod: -4,
     phaseWeightMods: {},
     effects: { ops: 1, skills: [{ skill: 'Folklore', ops: 1 }], totalOPs: 2, attributes: null, conditions: { add: ['writing_chronicle'], remove: [] }, classChange: null, deityChange: null },
     followOn: [],
   },
+
   {
     id: 'sold_the_business',
     label: 'Sold or handed over the business',
@@ -5652,15 +5648,16 @@ const LIFE_EVENTS = [
     ageGroups:  ['middle','old'],
     weights: { merchant: { middle: 5, old: 12 }, artisan: { middle: 4, old: 10 } },
     sexWeightMod: null,
-    requireConditions: ['prosperous'], excludeConditions: [], conditionWeightMods: {},
+    requireConditions: ['prosperous'], excludeConditions: ['retired'], conditionWeightMods: { prosperous: +15 },
     rootlessWeightMod: -2,
     phaseWeightMods: {},
-    effects: { ops: 2, skills: null, totalOPs: 2, attributes: null, conditions: null, classChange: null, deityChange: null },
+    effects: { ops: 2, skills: null, totalOPs: 2, attributes: null, conditions: { add: ['retired'], remove: [] }, classChange: null, deityChange: null },
     followOn: [],
   },
+
   {
     id: 'made_a_donation',
-    label: 'Made a substantial charitable donation',
+    label: 'Made a charitable donation',
     pool: 'biographical',
     isMajor: false,
     flavour: {
@@ -5750,14 +5747,15 @@ const LIFE_EVENTS = [
     weights: { noble: { middle: 4, old: 8 }, merchant: { middle: 5, old: 8 }, warrior: { middle: 3, old: 7 }, soldier: { middle: 3, old: 7 }, peasant: { middle: 4, old: 8 },
       unguilded:    { middle: 4, old: 8 }, artisan: { middle: 4, old: 8 }, clergy: { middle: 6, old: 10 } },
     sexWeightMod: null,
-    requireConditions: [], excludeConditions: [], conditionWeightMods: { devout: +4, pilgrim: +4, family_estranged: +4, fostered: +3, adopted: +3 },
+    requireConditions: [], excludeConditions: [], conditionWeightMods: { devout: +4, pilgrim: +4, family_estranged: +4, fostered: +3, adopted: +3 , retired: +12 },
     rootlessWeightMod: -3,
     phaseWeightMods: {},
     effects: { ops: 1, skills: [{ skill: 'Rhetoric', ops: 1 }], totalOPs: 2, attributes: null, conditions: { add: [], remove: ['disgraced'] }, classChange: null, deityChange: null },
     followOn: [],
   },
+
   {
-    id: 'fire_or_flood',
+    id: 'property_destroyed',
     label: 'Property lost to fire or flood',
     pool: 'biographical',
     isMajor: true,
@@ -5828,14 +5826,13 @@ const LIFE_EVENTS = [
     weights: { noble: { old: 10 }, merchant: { old: 10 }, warrior: { old: 14 }, soldier: { old: 14 }, peasant: { old: 12 },
       unguilded:    { old: 12 }, artisan: { old: 10 }, clergy: { old: 10 } },
     sexWeightMod: null,
-    requireConditions: [], excludeConditions: [], conditionWeightMods: { lame: +6, chronic_illness: +6 },
+    requireConditions: [], excludeConditions: [], conditionWeightMods: { lame: +6, chronic_illness: +6 , retired: +12 },
     rootlessWeightMod: -1,
     phaseWeightMods: {},
     effects: { ops: 1, skills: [{ skill: 'Folklore', ops: 1 }], totalOPs: 2, attributes: null, conditions: { add: [], remove: ['faith_crisis'] }, classChange: null, deityChange: null },
     followOn: [],
   },
 
-  // ── OUTLIVED MOST PEERS ───────────────────────────────────────────────────────
   // In old age, the principal has watched comrades, rivals, and contemporaries die.
   // The isolation is specific — not general grief but the particular strangeness of
   // having outlasted people who seemed as permanent as the world. Fires only in old
@@ -5909,7 +5906,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: ['estate_ordered'], conditionWeightMods: {
       prosperous: +4, indebted: -4,
-    },
+      retired: +15 },
     rootlessWeightMod: -3,
     phaseWeightMods: {},
     effects: {
@@ -5924,7 +5921,6 @@ const LIFE_EVENTS = [
     ],
   },
 
-  // ── TREASURE FOUND ─────────────────────────────────────────────────────────────
   // A cache of coin or valuables discovered unexpectedly — under a floor when
   // renovating, in a field being turned over, on a corpse in an abandoned building,
   // buried in a garden. Not plunder (that's military) and not inheritance (that's
@@ -10591,7 +10587,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -10613,7 +10609,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -10635,7 +10631,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -10657,7 +10653,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   // ── ADDITIONAL DREAMS AND OMENS (solo) ────────────────────────────────────────
@@ -10681,7 +10677,7 @@ const LIFE_EVENTS = [
     sexWeightMod: {male:0,female:+2},
     requireConditions: ['orphaned'], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -10704,7 +10700,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   // ── ADDITIONAL STRANGERS (solo) ───────────────────────────────────────────────
@@ -10729,7 +10725,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -10752,7 +10748,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   // ── ADDITIONAL FOUND AND LOST (solo) ──────────────────────────────────────────
@@ -10777,7 +10773,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -10799,7 +10795,7 @@ const LIFE_EVENTS = [
     sexWeightMod: {male:0,female:+2},
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   // ── ADDITIONAL SENSORY MEMORIES (solo) ────────────────────────────────────────
@@ -10824,7 +10820,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -10846,7 +10842,7 @@ const LIFE_EVENTS = [
     sexWeightMod: {male:0,female:+2},
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   // ── ADDITIONAL ACTS OF SMALL CONSEQUENCE (solo) ───────────────────────────────
@@ -10871,7 +10867,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -10894,7 +10890,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -10917,7 +10913,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   // ── ADDITIONAL FOOD AND DRINK (solo) ──────────────────────────────────────────
@@ -10942,7 +10938,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -10964,7 +10960,7 @@ const LIFE_EVENTS = [
     sexWeightMod: {male:+2,female:0},
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   // ── ADDITIONAL CRAFT AND SKILL (solo) ─────────────────────────────────────────
@@ -10988,7 +10984,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11011,7 +11007,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   // ── ADDITIONAL TRAVEL AND ROADS (solo) ────────────────────────────────────────
@@ -11036,7 +11032,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11059,7 +11055,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11082,7 +11078,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   // ── ADDITIONAL MEMORY AND REGRET (solo) ───────────────────────────────────────
@@ -11106,7 +11102,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11128,7 +11124,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   // ── ADDITIONAL NIGHT AND INSOMNIA (solo) ──────────────────────────────────────
@@ -11153,7 +11149,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11175,7 +11171,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   // ── ADDITIONAL CLASS-SPECIFIC (solo) ──────────────────────────────────────────
@@ -11197,7 +11193,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11219,7 +11215,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11240,7 +11236,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11262,7 +11258,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11282,7 +11278,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   // ── ADDITIONAL BODY AND HEALTH (solo) ─────────────────────────────────────────
@@ -11306,7 +11302,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11329,7 +11325,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: ['scarred'], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11352,7 +11348,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   // ── ADDITIONAL MISCELLANEOUS VIVID (solo) ─────────────────────────────────────
@@ -11377,7 +11373,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11400,7 +11396,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11423,7 +11419,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11446,7 +11442,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11469,7 +11465,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11491,7 +11487,7 @@ const LIFE_EVENTS = [
     sexWeightMod: {male:0,female:+3},
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11512,7 +11508,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11535,7 +11531,7 @@ const LIFE_EVENTS = [
     sexWeightMod: {male:0,female:+2},
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11558,7 +11554,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11581,7 +11577,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11604,7 +11600,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11627,7 +11623,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11649,7 +11645,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11672,7 +11668,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11694,7 +11690,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11717,7 +11713,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11740,7 +11736,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11762,7 +11758,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11785,7 +11781,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11807,7 +11803,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11830,7 +11826,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11853,7 +11849,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11876,7 +11872,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11899,7 +11895,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11922,7 +11918,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11945,7 +11941,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11968,7 +11964,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -11991,7 +11987,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12013,7 +12009,7 @@ const LIFE_EVENTS = [
     sexWeightMod: {male:0,female:+2},
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12035,7 +12031,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12058,7 +12054,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12081,7 +12077,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12103,7 +12099,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12125,7 +12121,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12148,7 +12144,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12171,7 +12167,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12194,7 +12190,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12217,7 +12213,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12239,7 +12235,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12262,7 +12258,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12285,7 +12281,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12308,7 +12304,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12331,7 +12327,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12354,7 +12350,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12377,7 +12373,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12399,7 +12395,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12421,7 +12417,7 @@ const LIFE_EVENTS = [
     sexWeightMod: {male:+2,female:0},
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12444,7 +12440,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12467,7 +12463,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12490,7 +12486,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12513,7 +12509,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: ['scarred'], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12536,7 +12532,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12558,7 +12554,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: ['disgraced'], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12581,7 +12577,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: ['devout'], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12604,7 +12600,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12626,7 +12622,7 @@ const LIFE_EVENTS = [
     sexWeightMod: {male:0,female:+2},
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12649,7 +12645,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12670,7 +12666,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12693,7 +12689,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12716,7 +12712,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12738,7 +12734,7 @@ const LIFE_EVENTS = [
     sexWeightMod: {male:0,female:+2},
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12761,7 +12757,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12784,7 +12780,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12807,7 +12803,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12830,7 +12826,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12853,7 +12849,7 @@ const LIFE_EVENTS = [
     sexWeightMod: {male:0,female:+2},
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12876,7 +12872,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12899,7 +12895,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
   {
@@ -12922,7 +12918,7 @@ const LIFE_EVENTS = [
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [], conditionWeightMods: {},
     effects: {ops:0,skills:null,totalOPs:0,attributes:null,conditions:null,classChange:null,deityChange:null},
-    followOn: [], propagateTo: [], familyFlavour: null,
+    followOn: [],
   },
 
 
@@ -13033,17 +13029,13 @@ const LIFE_EVENTS = [
       artisan: { young: 3, middle: 4, old: 3 },
     },
     sexWeightMod: null,
-    requireConditions: [], excludeConditions: ['outlawed'], conditionWeightMods: {},
+    requireConditions: [], excludeConditions: ['outlawed'], conditionWeightMods: {retired: -999 },
     rootlessWeightMod: 1, phaseWeightMods: { apprentice: 4,},
     oceanWeightMod: { C: -0.5, A: -0.5 },  // reduced: morality already captures most signal
     effects: { ops: 1, skills: null, totalOPs: 1, attributes: null, conditions: null, classChange: null, deityChange: null },
     followOn: [
       { eventId: 'accused_of_crime', weightMod: +5, duration: 2 },
-    ],
-  },
-
-  {
-    id: 'betrayed_a_confidence',
+    ], id: 'betrayed_a_confidence',
     label: 'Betrayed a confidence',
     pool: 'biographical',
     isMajor: false,
@@ -13603,45 +13595,13 @@ const LIFE_EVENTS = [
     label: 'A contact became a genuine friend',
     pool: 'biographical',
     isMajor: false,
+    minGapYears: 6,
     flavour: {
-      male:   'What had been a useful acquaintance became something he would not have expected — a person who knew him.',
-      female: 'The connection had started as practical. Somewhere along the way it became something she depended on.',
+      male:   'It had begun as professional acquaintance. Somewhere in the course of years it became something else — not sentimentally, but in the way that trust accumulates.',
+      female: 'She had known him for years before she realised she would do something difficult for him if he asked. He had, she suspected, reached the same conclusion about her.',
     },
-    ageGroups:  ['young','middle','old'],
-    weights: {
-      noble:        { young: 5,  middle: 6,  old: 5  },
-      merchant:     { young: 5,  middle: 6,  old: 5  },
-      warrior:      { young: 6,  middle: 6,  old: 5  },
-      soldier:      { young: 6,  middle: 6,  old: 5  },
-      peasant:      { young: 5,  middle: 5,  old: 4  },
-      unguilded:    { young: 5, middle: 5, old: 4 },
-      artisan: { young: 5,  middle: 5,  old: 4  },
-      clergy:       { young: 6,  middle: 6,  old: 5  },
-      lia_kavair:   { young: 8,  middle: 12, old: 8  },
-      priest_naveh: { young: 6,  middle: 8,  old: 5  },
-    },
-    sexWeightMod: { male: 0, female: +2 },
-    requireConditions: ['has_contacts'], excludeConditions: [],
-    conditionWeightMods: { devout: +3, pilgrim: +2 },
-    rootlessWeightMod: -1,
-    phaseWeightMods: {},
-    effects: {
-      ops: 1, skills: null, totalOPs: 1,
-      attributes: null, conditions: null,
-      classChange: null, deityChange: null,
-    },
-    followOn: [],
-  },
-  {
-    id: 'contact_lost_touch',
-    label: 'Lost touch with a contact',
-    pool: 'biographical',
-    isMajor: false,
-    flavour: {
-      male:   'Life moved them apart. He heard nothing more, and after a while stopped expecting to.',
-      female: 'They had simply stopped corresponding. She was not sure which of them had let it lapse.',
-    },
-    ageGroups:  ['young','middle','old'],
+    excludeClasses: ['pagaelin','walker_shaman'],
+    ageGroups: ['young','middle','old'],
     weights: {
       noble:        { young: 4,  middle: 5,  old: 6  },
       merchant:     { young: 5,  middle: 6,  old: 6  },
@@ -15513,7 +15473,7 @@ const LIFE_EVENTS = [
     },
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [],
-    conditionWeightMods: { prosperous: +3 },
+    conditionWeightMods: { prosperous: +3 , retired: -999 },
     rootlessWeightMod: 0, phaseWeightMods: {},
     effects: {
       ops: 0, skills: null, totalOPs: 0, attributes: null,
@@ -15521,11 +15481,7 @@ const LIFE_EVENTS = [
     },
     followOn: [
       { eventId: 'successful_trade_venture', weightMod: +5, duration: 2 },
-    ],
-  },
-
-  {
-    id: 'halean_introduced_contact',
+    ],d: 'halean_introduced_contact',
     label: 'A Halean priestess made a valuable introduction',
     pool: 'biographical',
     isMajor: false,
@@ -15754,7 +15710,7 @@ const LIFE_EVENTS = [
       classChange: null, deityChange: null,
     },
     followOn: [
-      { eventId: 'war_wound',                   weightMod: +10, duration: 1 },
+      { eventId: 'serious_wound',                   weightMod: +10, duration: 1 },
       { eventId: 'laranian_pre_battle_rite',     weightMod: +12, duration: 2 },
       { eventId: 'heretic_killed_in_service',    weightMod: +8,  duration: 2 },
       { eventId: 'witnessed_battlefield_miracle', weightMod: +5, duration: 2 },
@@ -15819,7 +15775,7 @@ const LIFE_EVENTS = [
       conditions: null, classChange: null, deityChange: null,
     },
     followOn: [
-      { eventId: 'war_wound',            weightMod: +8,  duration: 1 },
+      { eventId: 'serious_wound',            weightMod: +8,  duration: 1 },
       { eventId: 'religious_devotion',   weightMod: +5,  duration: 3 },
     ],
   },
@@ -16296,7 +16252,7 @@ const LIFE_EVENTS = [
     },
     sexWeightMod: { male: +3, female: -5 },
     requireConditions: ['franchise_holder'], excludeConditions: ['disgraced'],
-    conditionWeightMods: { guild_officer: -3 }, // already one
+    conditionWeightMods: { guild_officer: -3 , retired: -999 }, // already one
     rootlessWeightMod: -4, phaseWeightMods: {},
     oceanWeightMod: { E: +0.15, C: +0.1 },
     effects: {
@@ -16309,6 +16265,7 @@ const LIFE_EVENTS = [
       { eventId: 'political_intrigue',  weightMod: +4, duration: 3 },
     ],
   },
+
   {
     id: 'mangai_arbitration',
     label: 'Dispute brought before the Mangai',
@@ -16327,7 +16284,7 @@ const LIFE_EVENTS = [
     },
     sexWeightMod: null,
     requireConditions: [], excludeConditions: [],
-    conditionWeightMods: { franchise_holder: +3, guild_officer: +2 },
+    conditionWeightMods: { franchise_holder: +3, guild_officer: +2 , retired: -999 },
     rootlessWeightMod: -2, phaseWeightMods: { apprentice: 4,},
     effects: {
       ops: 0, skills: null, totalOPs: 0, attributes: null,
@@ -16336,11 +16293,7 @@ const LIFE_EVENTS = [
     followOn: [
       { eventId: 'guild_dispute',       weightMod: +8, duration: 1 },
       { eventId: 'church_arbitration',  weightMod: +4, duration: 2 },
-    ],
-  },
-
-  {
-    id: 'journeyman_wandering',
+    ],d: 'journeyman_wandering',
     label: 'Years of journeyman travel between masters',
     pool: 'biographical',
     isMajor: false,
@@ -16394,7 +16347,7 @@ const LIFE_EVENTS = [
     },
     sexWeightMod: { male: +2, female: -2 },
     requireConditions: [], excludeConditions: [],
-    conditionWeightMods: { studied_with_master_done: +4, prosperous: +2 },
+    conditionWeightMods: { studied_with_master_done: +4, prosperous: +2 , retired: -999 },
     rootlessWeightMod: 0, phaseWeightMods: { journeyman: +4, apprentice: +2 },
     effects: {
       ops: 1, skills: null, totalOPs: 1, attributes: null,
@@ -16404,6 +16357,7 @@ const LIFE_EVENTS = [
       { eventId: 'guild_advancement', weightMod: +12, duration: 1 },
     ],
   },
+
   {
     id: 'guild_dues_hardship',
     label: 'Guild dues caused serious hardship',
@@ -19082,30 +19036,6 @@ const LIFE_EVENTS = [
   // ══════════════════════════════════════════════════════════════════════════
 
   {
-    id: 'litigant_significant_case',
-    label: 'A significant case',
-    pool: 'biographical',
-    isMajor: true,
-    minGapYears: 5,
-    flavour: {
-      male:   'The case was a land dispute that had been running for eleven years before it reached him. He spent three months in the records, found the document that resolved it, and presented it to the court. The opposing litigant challenged the document\'s authenticity. He spent another six weeks establishing the document\'s provenance beyond reasonable challenge. The judgment came down in his client\'s favour. He billed for nine months of work. The client had expected it to take longer. He is considered excellent at land cases now, which means he will get more land cases. He has thoughts about whether this is what he wants but has not acted on them.',
-      female: 'She took the case because no one else would take it — a widow contesting the interpretation of her husband\'s will against the husband\'s family, who had retained the two most prominent litigants in Tashal. She won on one of three counts, which her client considered a failure. She considers it establishing precedent in a case where the law was genuinely unclear, which is what the record will show, and which future practitioners will find useful. She has thoughts about whether winning on record counts the same as winning in outcome. She has not resolved them.',
-    },
-    excludeClasses: ['noble','merchant','artisan','peasant','unguilded','clergy',
-      'guilded_arcanist','guilded_courtesan','guilded_herald','guilded_innkeeper',
-      'guilded_mariner','guilded_miner','guilded_performer','guilded_physician',
-      'lia_kavair','priest_naveh','soldier','warrior','pagaelin','walker_shaman'],
-    ageGroups: ['young','middle','old'],
-    weights: { guilded_litigant: { young: 12, middle: 18, old: 14 } },
-    sexWeightMod: null,
-    requireConditions: [],
-    excludeConditions: [],
-    conditionWeightMods: {},
-    effects: null,
-    followOn: [],
-  },
-
-  {
     id: 'colour_litigant_in_court',
     label: 'In the hall of the King\'s Court',
     pool: 'biographical',
@@ -19439,7 +19369,9 @@ const LIFE_EVENTS = [
     excludeConditions: [],
     conditionWeightMods: {},
     effects: null,
-    followOn: [],  },
+    followOn: [],
+  },
+
 
   {
     id: 'innkeeper_alderman_investigation',
@@ -22030,7 +21962,7 @@ const LIFE_EVENTS = [
     sexWeightMod: { male: 0, female: -999 },
     requireConditions: [],
     excludeConditions: [],
-    conditionWeightMods: { guild_member: +6, guild_officer: +4 },
+    conditionWeightMods: { guild_member: +6, guild_officer: +4 , retired: -999 },
     phaseWeightMods: { journeyman: +12, established: +10, senior: +6 },
     // High E = social; high A = cooperative; high C = organised
     oceanWeightMod: { E: +2.0, A: +1.5, C: +1.0 },
@@ -22419,6 +22351,505 @@ const LIFE_EVENTS = [
     phaseWeightMods: { apprentice: +4, journeyman: +8, established: +10, senior: +6 },
     oceanWeightMod: { N: +1.5 },
     effects: null,
+    followOn: [],
+  },
+
+
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // RETIREMENT TRIGGER EVENTS
+  // Rare. Require prosperous. Set 'retired' condition.
+  // ══════════════════════════════════════════════════════════════════════════
+
+  {
+    id: 'stepped_back_from_affairs',
+    label: 'Stepped back from working life',
+    pool: 'biographical',
+    isMajor: true,
+    minGapYears: 999,
+    flavour: {
+      male:   'He handed the last of it over — the keys, the ledgers, the daily decisions — and did not immediately know what to do with himself. The first month was strange. The second was less so. By the third he had discovered that there were things he had wanted to read for thirty years and had not, and that the garden was more interesting than he had appreciated when he was always somewhere else. He does not miss the work. He is surprised he does not miss it more.',
+      female: 'She had managed the household, the accounts, the children\'s marriages, and the succession of a substantial property for four decades, and she stopped. What she found on the other side of it was time. She had forgotten what time felt like when it belonged to her. She is still learning.',
+    },
+    excludeClasses: ['peasant','unguilded','soldier','lia_kavair','priest_naveh',
+      'guilded_arcanist','guilded_herald','guilded_innkeeper','guilded_litigant',
+      'guilded_mariner','guilded_miner','guilded_performer','guilded_physician',
+      'pagaelin','walker_shaman','destitute'],
+    ageGroups: ['old'],
+    weights: {
+      noble:    { young: 0, middle: 0, old: 8 },
+      merchant: { young: 0, middle: 0, old: 6 },
+      artisan:  { young: 0, middle: 0, old: 4 },
+      warrior:  { young: 0, middle: 0, old: 3 },
+      clergy:   { young: 0, middle: 0, old: 5 },
+    },
+    sexWeightMod: null,
+    requireConditions: ['prosperous'],
+    excludeConditions: ['retired','ruined','indebted','destitute'],
+    conditionWeightMods: { prosperous: +12, has_grandchildren: +6, declining_health: +8, chronic_illness: +10 },
+    rootlessWeightMod: -5,
+    phaseWeightMods: { senior: +15, senior_noble: +15, senior_clergy: +10 },
+    effects: {
+      ops: 2, skills: null, totalOPs: 2, attributes: null,
+      conditions: { add: ['retired'], remove: [] },
+      classChange: null, deityChange: null,
+    },
+    followOn: [],
+  },
+
+  {
+    id: 'dower_arrangement',
+    label: 'Moved to a dower property',
+    pool: 'biographical',
+    isMajor: true,
+    minGapYears: 999,
+    flavour: {
+      male:   null,
+      female: 'The house and the estate passed to her son, as they should. The dower property — a manor of modest size, a day\'s ride from the family seat — passed to her, as had been contracted at her marriage forty years ago. She has opinions about how the main house is now being managed. She has learned the discipline of keeping them largely to herself except when specifically asked, which she is, more often than her daughter-in-law would prefer.',
+    },
+    excludeClasses: ['peasant','unguilded','artisan','merchant','soldier','clergy',
+      'lia_kavair','priest_naveh','guilded_arcanist','guilded_herald','guilded_innkeeper',
+      'guilded_litigant','guilded_mariner','guilded_miner','guilded_performer',
+      'guilded_physician','pagaelin','walker_shaman','destitute'],
+    ageGroups: ['old'],
+    weights: {
+      noble:   { young: 0, middle: 0, old: 10 },
+      warrior: { young: 0, middle: 0, old: 5 },
+    },
+    sexWeightMod: { male: -8, female: 0 },
+    requireConditions: ['prosperous'],
+    excludeConditions: ['retired','ruined','landless'],
+    conditionWeightMods: { ever_widowed: +15, has_grandchildren: +8 },
+    rootlessWeightMod: -5,
+    phaseWeightMods: { senior_noble: +20, senior: +10 },
+    effects: {
+      ops: 1, skills: null, totalOPs: 1, attributes: null,
+      conditions: { add: ['retired'], remove: [] },
+      classChange: null, deityChange: null,
+    },
+    followOn: [],
+  },
+
+
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // GUILDED PHYSICIAN — additional class-specific events
+  // ══════════════════════════════════════════════════════════════════════════
+
+  {
+    id: 'physician_surgical_skill',
+    label: 'Developed a surgical technique through practice',
+    pool: 'biographical',
+    isMajor: false,
+    minGapYears: 8,
+    flavour: {
+      male:   'The procedure was not in the texts. It was in his hands — the product of forty repetitions on material that had not objected to being practiced on, and then a moment in a patient who would have died without it. He did the thing that was not in the texts. The patient lived. He wrote it down afterward, which took longer than the procedure.',
+      female: 'She learned it by doing it, which is the only way to learn surgery. The texts describe; the hands understand. She has a sequence now — a specific approach to a specific presentation — that she has done eight times and that works when the other approaches do not. She has shown it to one apprentice. She will show it to more when she is certain the apprentice has the steadiness for it.',
+    },
+    excludeClasses: ['noble','merchant','artisan','peasant','unguilded','clergy',
+      'warrior','soldier','lia_kavair','priest_naveh','pagaelin','walker_shaman','destitute',
+      'guilded_arcanist','guilded_courtesan','guilded_herald','guilded_innkeeper',
+      'guilded_litigant','guilded_mariner','guilded_miner','guilded_performer'],
+    ageGroups: ['young','middle','old'],
+    weights: { guilded_physician: { young: 10, middle: 18, old: 14 } },
+    sexWeightMod: null,
+    requireConditions: [],
+    excludeConditions: [],
+    conditionWeightMods: {},
+    rootlessWeightMod: 0,
+    phaseWeightMods: { journeyman: +8, established: +14, senior: +12 },
+    oceanWeightMod: { C: +2.0, O: +1.5 },
+    effects: { ops: 2, skills: null, totalOPs: 2, attributes: null,
+      conditions: null, classChange: null, deityChange: null },
+    followOn: [],
+  },
+
+  {
+    id: 'physician_peoni_relationship',
+    label: 'Developed a working relationship with Peoni healers',
+    pool: 'biographical',
+    isMajor: false,
+    minGapYears: 10,
+    flavour: {
+      male:   'The sister at the hospice knows things he does not — herb preparations that work reliably, patient-management approaches the guild does not teach, a diagnostic patience that comes from years of watching rather than years of cutting. He refers cases to her that he cannot do more for. She refers cases to him that have progressed past what herbs can manage. Neither of them acknowledges that this is an arrangement. It is simply what happens.',
+      female: 'She trained at a Peoni hospice for two years before the guild would certify her, which the guild considered a formality and she considered an education. The sisters taught her the difference between what the body needs and what the patient needs, which are not always the same thing. She has maintained the relationship since. It costs her nothing and has saved lives that the guild approach alone would not have.',
+    },
+    excludeClasses: ['noble','merchant','artisan','peasant','unguilded','clergy',
+      'warrior','soldier','lia_kavair','priest_naveh','pagaelin','walker_shaman','destitute',
+      'guilded_arcanist','guilded_courtesan','guilded_herald','guilded_innkeeper',
+      'guilded_litigant','guilded_mariner','guilded_miner','guilded_performer'],
+    ageGroups: ['young','middle','old'],
+    weights: { guilded_physician: { young: 8, middle: 14, old: 10 } },
+    sexWeightMod: { male: -2, female: +4 },
+    requireConditions: [],
+    excludeConditions: [],
+    conditionWeightMods: { devout: +8, pilgrim: +4 },
+    rootlessWeightMod: -4,
+    phaseWeightMods: { journeyman: +6, established: +10, senior: +8 },
+    effects: { ops: 1, skills: null, totalOPs: 1, attributes: null,
+      conditions: { add: ['has_contacts'], remove: [] }, classChange: null, deityChange: null },
+    followOn: [],
+  },
+
+  {
+    id: 'physician_the_fee_question',
+    label: 'Treated a patient who could not pay',
+    pool: 'biographical',
+    isMajor: false,
+    minGapYears: 5,
+    flavour: {
+      male:   'The guild rate is the guild rate. He knows this. He also knows that the man in front of him has a wound that will kill him in three days without treatment, and can pay roughly one-quarter of the guild minimum. He has made this calculation fourteen times in his career and has reached a different answer each time, depending on how tired he was and what the wound looked like and whether the man had children present. Today he treated the wound.',
+      female: 'She charged half. She will tell you she charged half because a half-paying patient is better for the guild reputation than a dead one who could not afford her. This is true. It is also true that the girl had a fever and the mother was frightened and she has never been able to make the calculation come out the other way when a child is involved. She does not think this is a flaw. The guild might disagree.',
+    },
+    excludeClasses: ['noble','merchant','artisan','peasant','unguilded','clergy',
+      'warrior','soldier','lia_kavair','priest_naveh','pagaelin','walker_shaman','destitute',
+      'guilded_arcanist','guilded_courtesan','guilded_herald','guilded_innkeeper',
+      'guilded_litigant','guilded_mariner','guilded_miner','guilded_performer'],
+    ageGroups: ['young','middle','old'],
+    weights: { guilded_physician: { young: 12, middle: 14, old: 10 } },
+    sexWeightMod: null,
+    requireConditions: [],
+    excludeConditions: [],
+    conditionWeightMods: { prosperous: -4, ruined: +6, indebted: +4 },
+    rootlessWeightMod: 0,
+    phaseWeightMods: { journeyman: +10, established: +12, senior: +8 },
+    oceanWeightMod: { A: +1.5, N: +1.0 },
+    effects: { ops: 1, skills: null, totalOPs: 1, attributes: null,
+      conditions: null, classChange: null, deityChange: null },
+    followOn: [],
+  },
+
+  {
+    id: 'colour_physician_diagnosis',
+    label: 'Sat with a difficult diagnosis',
+    pool: 'colour',
+    isMajor: false,
+    flavour: {
+      male:   'The symptoms do not resolve into a known pattern. He has been through the texts twice. He has a working hypothesis and a treatment that addresses the hypothesis and may do harm if the hypothesis is wrong. He will sit with this until the morning and then he will decide. He has learned that the decisions made after sitting with a problem overnight are better than the decisions made in the room with the patient, and that this is a thing he would not have believed when he was twenty.',
+      female: 'She knows what it probably is. She also knows three other things it might be and one thing it could be that she does not want to name yet because naming it changes what the next conversation with the family looks like. She will examine again tomorrow. She will look for the sign that tells her which one it is. The sign will either be there or it will not, and either way she will know more than she knows now.',
+    },
+    excludeClasses: ['noble','merchant','artisan','peasant','unguilded','clergy',
+      'warrior','soldier','lia_kavair','priest_naveh','pagaelin','walker_shaman','destitute',
+      'guilded_arcanist','guilded_courtesan','guilded_herald','guilded_innkeeper',
+      'guilded_litigant','guilded_mariner','guilded_miner','guilded_performer'],
+    ageGroups: ['young','middle','old'],
+    weights: { guilded_physician: { young: 14, middle: 18, old: 14 } },
+    sexWeightMod: null,
+    requireConditions: [],
+    excludeConditions: [],
+    conditionWeightMods: {},
+    rootlessWeightMod: 0,
+    phaseWeightMods: { journeyman: +8, established: +14, senior: +12 },
+    effects: { ops: 0, skills: null, totalOPs: 0, attributes: null,
+      conditions: null, classChange: null, deityChange: null },
+    followOn: [],
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // GUILDED ARCANIST — additional class-specific events
+  // ══════════════════════════════════════════════════════════════════════════
+
+  {
+    id: 'arcanist_concealment_practice',
+    label: 'Managed the concealment of arcane work',
+    pool: 'biographical',
+    isMajor: false,
+    minGapYears: 6,
+    flavour: {
+      male:   'The church knows what he is. They know what all the guild members are. The arrangement — the guild exists, the church tolerates it, neither party discusses the specific terms of that tolerance — holds because everyone behaves as though it holds. His part of this is that he does not work where it can be seen, does not discuss what he is studying, and maintains the cover identity with the same care he applies to the actual work. The cover is a cloth merchant. The cloth merchant has customers, accounts, a workshop. It is more work than the magic.',
+      female: 'She has two sets of records. The guild-facing records document study, practice hours, convocation attendance. The other records — the real ones, the ones that track what she is actually doing and where it is going — exist in a notation system she developed herself, hidden in what looks like a household accounts book. This is not paranoia. This is the correct operating procedure for the specific situation she is in.',
+    },
+    excludeClasses: ['noble','merchant','artisan','peasant','unguilded','clergy',
+      'warrior','soldier','lia_kavair','priest_naveh','pagaelin','walker_shaman','destitute',
+      'guilded_courtesan','guilded_herald','guilded_innkeeper','guilded_litigant',
+      'guilded_mariner','guilded_miner','guilded_performer','guilded_physician'],
+    ageGroups: ['young','middle','old'],
+    weights: { guilded_arcanist: { young: 16, middle: 20, old: 14 } },
+    sexWeightMod: null,
+    requireConditions: [],
+    excludeConditions: [],
+    conditionWeightMods: { criminal_record: +8, secret_worshipper: +6 },
+    rootlessWeightMod: 0,
+    phaseWeightMods: { apprentice: +8, journeyman: +14, established: +16, senior: +12 },
+    oceanWeightMod: { C: +2.0, N: +1.5 },
+    effects: { ops: 1, skills: null, totalOPs: 1, attributes: null,
+      conditions: null, classChange: null, deityChange: null },
+    followOn: [],
+  },
+
+  {
+    id: 'arcanist_material_cost',
+    label: 'The material costs of arcane practice',
+    pool: 'biographical',
+    isMajor: false,
+    minGapYears: 5,
+    flavour: {
+      male:   'The components for a serious working cost more than a journeyman artisan earns in a month, which is why serious workings are rare and why the guild\'s wealthiest members produce the most interesting research. He has been managing this arithmetic for eight years. He spends less on food than he should, keeps the workshop cold in winter, and has learned which components can be substituted and which substitutions produce results that are merely different rather than catastrophically wrong.',
+      female: 'She inherited her grandmother\'s component stock, which is how she was able to afford to train at all. She has been spending down the inheritance for six years. Roughly half remains. She works carefully and documents every use, because when the last of it is gone she will need to have produced enough of a reputation to attract patronage, and the reputation needs to be built on what the work actually achieved.',
+    },
+    excludeClasses: ['noble','merchant','artisan','peasant','unguilded','clergy',
+      'warrior','soldier','lia_kavair','priest_naveh','pagaelin','walker_shaman','destitute',
+      'guilded_courtesan','guilded_herald','guilded_innkeeper','guilded_litigant',
+      'guilded_mariner','guilded_miner','guilded_performer','guilded_physician'],
+    ageGroups: ['young','middle','old'],
+    weights: { guilded_arcanist: { young: 14, middle: 16, old: 10 } },
+    sexWeightMod: null,
+    requireConditions: [],
+    excludeConditions: [],
+    conditionWeightMods: { prosperous: -6, indebted: +8, ruined: +4 },
+    rootlessWeightMod: 0,
+    phaseWeightMods: { apprentice: +10, journeyman: +12, established: +8 },
+    effects: { ops: 1, skills: null, totalOPs: 1, attributes: null,
+      conditions: null, classChange: null, deityChange: null },
+    followOn: [],
+  },
+
+  {
+    id: 'arcanist_patron_arrangement',
+    label: 'Entered or ended a noble patron arrangement',
+    pool: 'biographical',
+    isMajor: true,
+    minGapYears: 12,
+    flavour: {
+      male:   'The lord wants results that are visible and impressive. What he actually does is work that is slow, careful, frequently inconclusive, and produces results that are sometimes visible and occasionally impressive but mostly invisible to anyone who does not already know what they are looking at. The negotiation of this gap — explaining what the work is, producing enough of what the lord wants to maintain the arrangement, keeping enough independence to do work worth doing — occupies more of his time than the work itself. He is good at it. He does not enjoy it.',
+      female: 'The lady patron wants an astrologer and an alchemist and a woman who can be presented at court as evidence of progressive thinking. She is technically all three of these things. The arrangement pays for the workshop and the components and leaves enough over to maintain the cover identity. She has been careful about what she lets the lady actually see, which has required some creativity. The lady is satisfied. The work continues.',
+    },
+    excludeClasses: ['noble','merchant','artisan','peasant','unguilded','clergy',
+      'warrior','soldier','lia_kavair','priest_naveh','pagaelin','walker_shaman','destitute',
+      'guilded_courtesan','guilded_herald','guilded_innkeeper','guilded_litigant',
+      'guilded_mariner','guilded_miner','guilded_performer','guilded_physician'],
+    ageGroups: ['young','middle','old'],
+    weights: { guilded_arcanist: { young: 8, middle: 14, old: 10 } },
+    sexWeightMod: null,
+    requireConditions: [],
+    excludeConditions: [],
+    conditionWeightMods: { prosperous: +6, has_contacts: +4 },
+    rootlessWeightMod: -6,
+    phaseWeightMods: { journeyman: +6, established: +14, senior: +10 },
+    effects: { ops: 1, skills: null, totalOPs: 1, attributes: null,
+      conditions: { add: ['has_contacts'], remove: [] }, classChange: null, deityChange: null },
+    followOn: [],
+  },
+
+  {
+    id: 'colour_arcanist_the_failed_working',
+    label: 'A working that did not do what it was supposed to',
+    pool: 'colour',
+    isMajor: false,
+    flavour: {
+      male:   'It did something. He is not certain what. The components are gone, the notation is complete, the result is not what the notation predicts. He has been through the sequence three times and cannot find the error. This is the specific frustration that is different from all other frustrations: the thing happened, the record is accurate, and he still does not understand why the result was what it was. He will run it again with different components. He will run it again after that.',
+      female: 'She knows exactly what went wrong. She went wrong — a moment of distraction at a critical point, a slight variance in the preparation that she noticed and decided was within tolerance and was apparently not within tolerance. The result was not dangerous. It was merely wrong. She has been sitting with the gap between \'not dangerous\' and \'not wrong\' for two days.',
+    },
+    excludeClasses: ['noble','merchant','artisan','peasant','unguilded','clergy',
+      'warrior','soldier','lia_kavair','priest_naveh','pagaelin','walker_shaman','destitute',
+      'guilded_courtesan','guilded_herald','guilded_innkeeper','guilded_litigant',
+      'guilded_mariner','guilded_miner','guilded_performer','guilded_physician'],
+    ageGroups: ['young','middle','old'],
+    weights: { guilded_arcanist: { young: 16, middle: 18, old: 14 } },
+    sexWeightMod: null,
+    requireConditions: [],
+    excludeConditions: [],
+    conditionWeightMods: {},
+    rootlessWeightMod: 0,
+    phaseWeightMods: { apprentice: +8, journeyman: +14, established: +16, senior: +10 },
+    effects: { ops: 0, skills: null, totalOPs: 0, attributes: null,
+      conditions: null, classChange: null, deityChange: null },
+    followOn: [],
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // GUILDED PERFORMER — additional class-specific events
+  // ══════════════════════════════════════════════════════════════════════════
+
+  {
+    id: 'performer_hostile_room',
+    label: 'Performed for a hostile or indifferent audience',
+    pool: 'biographical',
+    isMajor: false,
+    minGapYears: 5,
+    flavour: {
+      male:   'The room wanted dancing girls and got a harper. He played. He played the three pieces most likely to reach an audience that did not want to be reached, and he watched the room ignore him with the specific focused attention of a professional being ignored, and at the end he collected his fee and walked out and did not change anything about how he played. You do not change the work because of rooms like that. Rooms like that are the cost of the work.',
+      female: 'She knew before she started. The way the room was laid out, the way the host introduced her — apologetically, as though she were an obligation — told her everything. She played well anyway. Not for the room. For the two people in the back who were listening, the way you can always find two people in the back who are listening if you look. She played for them.',
+    },
+    excludeClasses: ['noble','merchant','artisan','peasant','unguilded','clergy',
+      'warrior','soldier','lia_kavair','priest_naveh','pagaelin','walker_shaman','destitute',
+      'guilded_arcanist','guilded_courtesan','guilded_herald','guilded_innkeeper',
+      'guilded_litigant','guilded_mariner','guilded_miner','guilded_physician'],
+    ageGroups: ['young','middle','old'],
+    weights: { guilded_performer: { young: 18, middle: 16, old: 10 } },
+    sexWeightMod: null,
+    requireConditions: [],
+    excludeConditions: [],
+    conditionWeightMods: {},
+    rootlessWeightMod: +6,
+    phaseWeightMods: { apprentice: +8, journeyman: +14, established: +10 },
+    oceanWeightMod: { N: +1.0, C: +1.5 },
+    effects: { ops: 1, skills: null, totalOPs: 1, attributes: null,
+      conditions: null, classChange: null, deityChange: null },
+    followOn: [],
+  },
+
+  {
+    id: 'performer_the_piece_abandoned',
+    label: 'Abandoned a composition that would not resolve',
+    pool: 'biographical',
+    isMajor: false,
+    minGapYears: 8,
+    flavour: {
+      male:   'He worked on it for three years, off and on, in the margins of commissions and between tours. He has nine months of notation and two strong sections and a middle that does not work and will not work and he has spent as much time on it as he is willing to spend. He put it in a box. He does not think he will go back to it. He is aware that putting it in a box is not the same as finishing it and that he will probably go back to it.',
+      female: 'The problem is not the music. The music is finished. The problem is the text, which says the thing she wants to say but says it in a way that is slightly wrong — slightly too direct, or slightly too oblique, she cannot determine which — and she has been revising it for two years and it is getting worse, not better. She has set it aside. She does not know if she has given up or if she is waiting for the version of herself who will be able to finish it.',
+    },
+    excludeClasses: ['noble','merchant','artisan','peasant','unguilded','clergy',
+      'warrior','soldier','lia_kavair','priest_naveh','pagaelin','walker_shaman','destitute',
+      'guilded_arcanist','guilded_courtesan','guilded_herald','guilded_innkeeper',
+      'guilded_litigant','guilded_mariner','guilded_miner','guilded_physician'],
+    ageGroups: ['young','middle','old'],
+    weights: { guilded_performer: { young: 10, middle: 18, old: 12 } },
+    sexWeightMod: null,
+    requireConditions: [],
+    excludeConditions: [],
+    conditionWeightMods: {},
+    rootlessWeightMod: 0,
+    phaseWeightMods: { journeyman: +10, established: +14, senior: +8 },
+    oceanWeightMod: { O: +2.5, N: +1.5, C: -1.0 },
+    effects: { ops: 1, skills: null, totalOPs: 1, attributes: null,
+      conditions: null, classChange: null, deityChange: null },
+    followOn: [],
+  },
+
+  {
+    id: 'performer_winter_residence',
+    label: 'Spent a winter in residence at a noble hall',
+    pool: 'biographical',
+    isMajor: false,
+    minGapYears: 6,
+    flavour: {
+      male:   'Four months. He played at every meal, attended every gathering, performed twice at formal occasions, and was available for private audiences with the family and their guests. The work was constant and the quality expected was constant and the social requirements — being pleasant, being unobtrusive, being present without being obtrusive — were as demanding as the music. He was paid well. He left in the spring glad to be back on the road, which he had not expected to feel.',
+      female: 'The countess wanted a harper for the winter. She wanted someone who could teach her daughters, perform at the tables, and provide the kind of cultured background noise that signalled to visitors that this was a household of taste. She provided all three. The daughters were more talented than expected, which made the teaching genuinely interesting. The countess was less interested in the music than in the signal, which made everything else more tolerable.',
+    },
+    excludeClasses: ['noble','merchant','artisan','peasant','unguilded','clergy',
+      'warrior','soldier','lia_kavair','priest_naveh','pagaelin','walker_shaman','destitute',
+      'guilded_arcanist','guilded_courtesan','guilded_herald','guilded_innkeeper',
+      'guilded_litigant','guilded_mariner','guilded_miner','guilded_physician'],
+    ageGroups: ['young','middle','old'],
+    weights: { guilded_performer: { young: 12, middle: 18, old: 10 } },
+    sexWeightMod: null,
+    requireConditions: [],
+    excludeConditions: [],
+    conditionWeightMods: { has_contacts: +6 },
+    rootlessWeightMod: -4,
+    phaseWeightMods: { journeyman: +8, established: +14, senior: +8 },
+    effects: { ops: 1, skills: null, totalOPs: 1, attributes: null,
+      conditions: { add: ['has_contacts'], remove: [] }, classChange: null, deityChange: null },
+    followOn: [],
+  },
+
+
+
+  {
+    id: 'performer_taught_a_student',
+    label: 'Took on a student or apprentice',
+    pool: 'biographical',
+    isMajor: false,
+    minGapYears: 8,
+    flavour: {
+      male:   'The boy had genuine ability — not the manufactured enthusiasm of a patron\'s child being given lessons, but the specific kind of attention that means something is actually being heard. He took him on formally. Teaching the technique is straightforward. Teaching the judgment is slower — when to hold back, when to push, what the room needs at a given moment — because the judgment is not a set of rules, it is accumulated reading, and you cannot transfer accumulated reading, only create conditions for it to develop. He is trying to create the conditions.',
+      female: 'She teaches three students now. One has it and will do something serious. One is competent and will have a decent career. One is neither, and she has been composing the conversation that ends the arrangement for two months. The conversation is harder than the teaching.',
+    },
+    excludeClasses: ['noble','merchant','artisan','peasant','unguilded','clergy',
+      'warrior','soldier','lia_kavair','priest_naveh','pagaelin','walker_shaman','destitute',
+      'guilded_arcanist','guilded_courtesan','guilded_herald','guilded_innkeeper',
+      'guilded_litigant','guilded_mariner','guilded_miner','guilded_physician'],
+    ageGroups: ['middle','old'],
+    weights: { guilded_performer: { young: 0, middle: 16, old: 18 } },
+    sexWeightMod: null,
+    requireConditions: [],
+    excludeConditions: [],
+    conditionWeightMods: {},
+    rootlessWeightMod: -4,
+    phaseWeightMods: { established: +14, senior: +16 },
+    effects: { ops: 1, skills: null, totalOPs: 1, attributes: null,
+      conditions: null, classChange: null, deityChange: null },
+    followOn: [],
+  },
+
+  {
+    id: 'litigant_significant_case',
+    label: 'Argued a case that set a precedent',
+    pool: 'biographical',
+    isMajor: true,
+    minGapYears: 12,
+    flavour: {
+      male:   'The case was not supposed to be significant. It was a boundary dispute — two freemen, adjacent plots, a ditch that had moved. He argued the survey methodology and the charter language and the court found for his client, which was expected. What was not expected was the recorder noting the reasoning in the case record in a way that made it available for citation. Three years later another advocate cited it. He was not surprised. He had known when he was making the argument that it was the correct framing of the question, and correct framings do not stay in single cases.',
+      female: 'She took the case because no one else would. The client was a merchant widow trying to recover a debt from a man with better connections than she had, and the case had been sitting in the court docket for four years because no one who could have argued it had found the fee worth the political cost. She charged cost-plus and argued it and won on a technical reading of the charter that the other side\'s advocate had not anticipated. She is now on good terms with every merchant widow in the city, which is a specific kind of valuable.',
+    },
+    excludeClasses: ['noble','merchant','artisan','peasant','unguilded','clergy',
+      'warrior','soldier','lia_kavair','priest_naveh','pagaelin','walker_shaman','destitute',
+      'guilded_arcanist','guilded_courtesan','guilded_herald','guilded_innkeeper',
+      'guilded_mariner','guilded_miner','guilded_performer','guilded_physician'],
+    ageGroups: ['middle','old'],
+    weights: { guilded_litigant: { young: 0, middle: 14, old: 12 } },
+    sexWeightMod: null,
+    requireConditions: [],
+    excludeConditions: [],
+    conditionWeightMods: { has_contacts: +6 },
+    rootlessWeightMod: -6,
+    phaseWeightMods: { established: +16, senior: +12 },
+    effects: { ops: 2, skills: null, totalOPs: 2, attributes: null,
+      conditions: { add: ['has_contacts','prosperous'], remove: [] }, classChange: null, deityChange: null },
+    followOn: [],
+  },
+
+  {
+    id: 'litigant_court_politics',
+    label: 'Navigated hostile court politics',
+    pool: 'biographical',
+    isMajor: false,
+    minGapYears: 7,
+    flavour: {
+      male:   'The senior recorder dislikes him. This is not personal — the recorder dislikes all litigants on principle, as necessary nuisances who use his court to generate fees for themselves. What this means in practice is that filings are slower, scheduling is less convenient, and the clerk who processes his paperwork happens to be the one who makes the most administrative errors. He has learned to work with this the way you learn to work with bad weather: with preparation, patience, and the specific determination of someone who has no intention of moving.',
+      female: 'She has been told, indirectly and through three intermediaries, that her continued success in the courts is causing discomfort among the established advocates. She has noted this. She has continued. The discomfort appears to be growing proportionally to her success, which she considers a reasonable outcome.',
+    },
+    excludeClasses: ['noble','merchant','artisan','peasant','unguilded','clergy',
+      'warrior','soldier','lia_kavair','priest_naveh','pagaelin','walker_shaman','destitute',
+      'guilded_arcanist','guilded_courtesan','guilded_herald','guilded_innkeeper',
+      'guilded_mariner','guilded_miner','guilded_performer','guilded_physician'],
+    ageGroups: ['young','middle','old'],
+    weights: { guilded_litigant: { young: 12, middle: 16, old: 12 } },
+    sexWeightMod: { male: -2, female: +4 },
+    requireConditions: [],
+    excludeConditions: [],
+    conditionWeightMods: { disgraced: +6, ever_disgraced: +4 },
+    rootlessWeightMod: -4,
+    phaseWeightMods: { journeyman: +10, established: +14, senior: +8 },
+    effects: { ops: 1, skills: null, totalOPs: 1, attributes: null,
+      conditions: null, classChange: null, deityChange: null },
+    followOn: [],
+  },
+
+  {
+    id: 'colour_litigant_the_argument',
+    label: 'Turning an argument over before court',
+    pool: 'colour',
+    isMajor: false,
+    flavour: {
+      male:   'He has been over it four times. The weakness is on the third point — the charter language is ambiguous and the other side will read it the other way and will not be wrong to do so, they will simply be reading it wrong. He needs the recorder to see why his reading is more consistent with the intent of the original grant, which means he needs the recorder to care about consistency and intent, which is not guaranteed. He will make the argument anyway. He has been making arguments that were not guaranteed for fifteen years.',
+      female: 'The other side\'s case is actually quite good. She has been sitting with this for two days and has concluded that it is good in the specific way that can be beaten, which is different from being good in the way that cannot. The route through it requires her to establish the precedent before she uses it, which means she needs to reference a case from four reigns ago that the recorder may not know. She will know if he knows it when she mentions it. She has learned to watch faces for that specific moment.',
+    },
+    excludeClasses: ['noble','merchant','artisan','peasant','unguilded','clergy',
+      'warrior','soldier','lia_kavair','priest_naveh','pagaelin','walker_shaman','destitute',
+      'guilded_arcanist','guilded_courtesan','guilded_herald','guilded_innkeeper',
+      'guilded_mariner','guilded_miner','guilded_performer','guilded_physician'],
+    ageGroups: ['young','middle','old'],
+    weights: { guilded_litigant: { young: 14, middle: 18, old: 14 } },
+    sexWeightMod: null,
+    requireConditions: [],
+    excludeConditions: [],
+    conditionWeightMods: {},
+    rootlessWeightMod: -4,
+    phaseWeightMods: { journeyman: +8, established: +14, senior: +12 },
+    effects: { ops: 0, skills: null, totalOPs: 0, attributes: null,
+      conditions: null, classChange: null, deityChange: null },
     followOn: [],
   },
 

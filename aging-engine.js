@@ -106,6 +106,8 @@ const CULTURE_CONFIGS = {
 // Maps each social class to its culture config key.
 // All existing Kaldorian classes → 'kaldor'.
 // Add new classes here when implementing new cultures.
+// 'craftsperson' is normalised to 'artisan' in generate-from-description.js
+// before reaching ageCharacter. Do not pass 'craftsperson' directly.
 const CLASS_CULTURE_MAP = {
   noble:        'kaldor',
   merchant:     'kaldor',
@@ -1819,8 +1821,12 @@ function resolvePregnancy(ctx, age, ageGroup, maternalAge = age) {
   if (isFemale) {
     if      (outcome === 'miscarriage') {
       flavour = weeks <= 10
-        ? 'She lost the child early — before she had said much aloud about it. She said nothing after, either.'
-        : 'She lost the child before its time. She did not speak of it openly.';
+        ? (rand() < 0.5
+            ? 'She lost the child early — before she had said much aloud about it. She said nothing after, either.'
+            : 'The child was lost before it had become real to anyone else. She marked it privately.')
+        : (rand() < 0.5
+            ? 'She lost the child before its time. She did not speak of it openly.'
+            : 'Another loss before it had become a child in any way others would recognise. She grieved it nonetheless.');
     } else if (outcome === 'stillbirth') {
       flavour = weeks >= 38
         ? 'The child came at term and did not breathe. She had been so close.'
@@ -1833,13 +1839,22 @@ function resolvePregnancy(ctx, age, ageGroup, maternalAge = age) {
     } else if (difficult) {
       flavour = `The birth was hard and left her weakened for months. But the child — ${child.name} — lived.`;
     } else {
-      flavour = `She bore a child. ${child.name} came into the world healthy.`;
+      const _femaleNormalFlavours = [
+        `She bore a child. ${child.name} came into the world healthy.`,
+        `Her first child arrived. ${child.name}. She had not understood, until the moment it was placed in her arms, how much of herself she would give to it.`,
+        `The birth took longer than expected. ${child.name} lived. She spent the next three days learning who she now was.`,
+      ];
+      flavour = _femaleNormalFlavours[Math.floor(rand() * _femaleNormalFlavours.length)];
     }
   } else {
     if      (outcome === 'miscarriage') {
       flavour = weeks <= 10
-        ? 'His wife lost the child early. Neither of them spoke much about it.'
-        : 'His wife lost the child before its time. He did not know what to do with his grief.';
+        ? (rand() < 0.5
+            ? 'His wife lost the child early. Neither of them spoke much about it.'
+            : 'The pregnancy ended before it had properly begun. He did not know what to say, so he said nothing useful.')
+        : (rand() < 0.5
+            ? 'His wife lost the child before its time. He did not know what to do with his grief.'
+            : 'She lost the child. He learned the limits of what he could do for her grief, which was most of it.');
     } else if (outcome === 'stillbirth') {
       flavour = weeks >= 38
         ? 'The child came at term and did not live. He had thought the danger past.'
@@ -1852,7 +1867,12 @@ function resolvePregnancy(ctx, age, ageGroup, maternalAge = age) {
     } else if (difficult) {
       flavour = `His wife's labour was hard, and she was weakened for months. The child — ${child.name} — survived.`;
     } else {
-      flavour = `His wife bore him a child. ${child.name} came into the world, and the house changed around that fact.`;
+      const _maleNormalFlavours = [
+        `His wife bore him a child. ${child.name} came into the world, and the house changed around that fact.`,
+        `The child came, and with it something he had not prepared for — an attachment that rearranged everything else. ${child.name}.`,
+        `He held the infant and understood something new about the world. He had not expected to feel it so immediately.`,
+      ];
+      flavour = _maleNormalFlavours[Math.floor(rand() * _maleNormalFlavours.length)];
     }
   }
 
@@ -1940,6 +1960,13 @@ function ageCharacter({
   const cls      = isResume ? cp.socialClass.toLowerCase()
                             : (socialClass || 'peasant').toLowerCase();
   const _sex  = isResume ? cp.sex : (sex || 'male');
+
+  // ── Auto-generate name if none supplied ──────────────────────────────────
+  // Done after seed is applied so seeded runs remain fully deterministic.
+  if (!name && !isResume) {
+    const _nameObj = generateName(_sex, cls);
+    name = _nameObj;  // object with .full, .given, .surname
+  }
   const isFemale = _sex === 'female';
 
   const startingAge  = STARTING_AGES[cls] || 14;
@@ -2227,7 +2254,7 @@ function ageCharacter({
       const result = {};
       for (const key of ['O', 'C', 'E', 'A', 'N']) {
         // ±15 random variation around the cultural base
-        const variation = Math.floor(Math.random() * 31) - 15;
+        const variation = Math.floor(rand() * 31) - 15;
         result[key] = Math.max(1, Math.min(100, base[key] + variation));
       }
       return result;
@@ -2354,6 +2381,12 @@ function ageCharacter({
       initConditions.push('family_estranged');
     else if (_siblingData.estrangementLevel === 1 && !initConditions.includes('family_distant'))
       initConditions.push('family_distant');
+    // Destitute class NPCs start life with the 'destitute' condition — their class-specific
+    // events all requireConditions: ['destitute'], which would never fire for NPCs born into
+    // the class (the entry event 'fallen_to_destitution' only fires for mid-life transitions).
+    if (cls === 'destitute' && !initConditions.includes('destitute')) {
+      initConditions.push('destitute');
+    }
     // Sibling count conditions — affects inheritance weight and family dynamics
     if (_siblingData.siblingCount === 0 && !initConditions.includes('only_child'))
       initConditions.push('only_child');
@@ -2683,7 +2716,7 @@ function ageCharacter({
       : `${name} died young \u2014 a child still.`;
     if (childAge < 18) return isFemale
       ? `${name} had nearly reached adulthood. She had thought the worst years of worry were behind her.`
-      : `${name} was nearly grown when he died.`;
+      : `${name} was nearly grown when ${child.sex === 'female' ? 'she' : 'he'} died.`;
     return isFemale
       ? `${name} died before she had expected it. The grief of outliving a child did not diminish with their age.`
       : `${name} died. He had not thought a parent could grieve an adult child as much as an infant. He had been wrong.`;
@@ -3438,6 +3471,16 @@ function ageCharacter({
   // Returns { resolvedEvent, injuryDetail, rhNote, relationalNote,
   //           freeOPs, skillOPs, totalSpent }
   // and mutates char, spouses, children, skillOPMap, classChanges, deityChanges.
+
+  // ── FLAVOUR VARIANT HELPER ───────────────────────────────────────────────
+  // When a flavour field is an array, pick one entry at random using the
+  // seeded rand so results remain deterministic for a given seed.
+  // When it is a string (all existing events), returns it unchanged.
+  function pickFlavour(field) {
+    if (!field) return field;
+    if (Array.isArray(field)) return field[Math.floor(rand() * field.length)];
+    return field;
+  }
 
   function resolveEvent(event, age, ageGroup) {
 
@@ -4309,6 +4352,34 @@ function ageCharacter({
                   char.archetype    = newArch.id;
                 }
               }
+              // Pagaelin dominant/chieftain → elder_male: reroll to unlock elder archetypes
+              // (scarred_arbiter, pagaelin_elder_dominant, pagaelin_former_chieftain etc.)
+              if (char.socialClass === 'pagaelin' && t.toPhase === 'elder_male') {
+                const newArch = rollArchetype('pagaelin', _sex, 'elder_male',
+                  char.settlementType, new Set(char.conditions));
+                if (newArch && newArch.id !== resolvedArchetype?.id) {
+                  archetypeChanges.push({
+                    fromAge: age, from: resolvedArchetype?.id || null,
+                    to: newArch.id, reason: 'dominant_to_elder_male',
+                  });
+                  resolvedArchetype = newArch;
+                  char.archetype    = newArch.id;
+                }
+              }
+              // Pagaelin held_woman → elder_female: reroll to unlock elder female archetypes
+              // (walker_prophetess, pagaelin_elder_woman_respected, pagaelin_plant_woman etc.)
+              if (char.socialClass === 'pagaelin' && t.toPhase === 'elder_female') {
+                const newArch = rollArchetype('pagaelin', _sex, 'elder_female',
+                  char.settlementType, new Set(char.conditions));
+                if (newArch && newArch.id !== resolvedArchetype?.id) {
+                  archetypeChanges.push({
+                    fromAge: age, from: resolvedArchetype?.id || null,
+                    to: newArch.id, reason: 'held_woman_to_elder_female',
+                  });
+                  resolvedArchetype = newArch;
+                  char.archetype    = newArch.id;
+                }
+              }
               // artisan apprentice → journeyman sets rootless
               if (char.socialClass === 'artisan' && t.toPhase === 'journeyman') {
                 char.rootless = true;
@@ -4779,7 +4850,7 @@ function ageCharacter({
       eventLabel:      isBioPregnancyOutcome ? bioResult._pregnancyLabel      : bioResult.resolvedEvent.label,
       flavour:         isBioPregnancyOutcome
                          ? bioResult._pregnancyFlavour
-                         : (char.sex === 'female'
+                         : pickFlavour(char.sex === 'female'
                              ? bioResult.resolvedEvent.flavour.female
                              : bioResult.resolvedEvent.flavour.male),
       flavourNote:     isBioPregnancyOutcome
@@ -4814,8 +4885,8 @@ function ageCharacter({
       let famFlavour = isPregnancyOutcome
         ? famResult._pregnancyFlavour
         : (char.sex === 'female'
-            ? famResult.resolvedEvent.flavour.female
-            : famResult.resolvedEvent.flavour.male);
+            ? pickFlavour(famResult.resolvedEvent.flavour.female)
+            : pickFlavour(famResult.resolvedEvent.flavour.male));
 
       // Fix D: child_dies — override flavour text based on child's age and disability
       if (famEventId === 'child_dies' && famResult.diedChildId) {
@@ -4842,7 +4913,7 @@ function ageCharacter({
           } else {
             famFlavour = char.sex === 'female'
               ? `${deadChild.name} had nearly reached adulthood. She had thought the worst years of worry were behind her.`
-              : `${deadChild.name} was nearly grown when he died. A different grief from losing an infant — heavier in some ways.`;
+              : `${deadChild.name} was nearly grown when ${deadChild.sex === 'female' ? 'she' : 'he'} died. A different grief from losing an infant — heavier in some ways.`;
           }
         }
       }
@@ -4988,7 +5059,7 @@ function ageCharacter({
   // final CharacterResult object. Also resolves settlement pool names and
   // handles the caller-supplied settlement override.
   function assembleResult() {
-  const narrative = buildNarrative(history, classChanges, deityChanges);
+  const narrative = buildNarrative(history, classChanges, deityChanges, char.sex);
 
   // ── settlement pool name resolution ──────────────────────────────────────
   // If the caller supplied a settlementPool, populate fromName/toName on each
@@ -5077,6 +5148,19 @@ function ageCharacter({
     upbringing:         _familyOrigin.type,
     parents:            _familyOrigin.parents,
     siblings:           _familyOrigin.siblings,
+    // Extended family: grandparents, aunt/uncle units, cousins, nephews/nieces
+    // Generated lazily after the main result is assembled — needs parents + siblings.
+    get extendedFamily() {
+      if (!this._extendedFamily) {
+        try {
+          const { generateExtendedFamily } = require('./extended-family');
+          this._extendedFamily = generateExtendedFamily(this);
+        } catch(e) {
+          this._extendedFamily = null;
+        }
+      }
+      return this._extendedFamily;
+    },
     archetype:          resolvedArchetype ? { id: resolvedArchetype.id, label: resolvedArchetype.label, description: resolvedArchetype.description } : null,
     rhPositive:         char.rhPositive,
     phase:              char.phase,
@@ -5093,7 +5177,9 @@ function ageCharacter({
     sunsign:            _birthProfile.sunsign,
     piety:              _birthProfile.piety,
     medicalTrait:       _birthProfile.medicalTrait ?? null,
-    name:               name || null,
+    name:               (typeof name === 'object' && name !== null) ? name.full : name || null,
+    given:              (typeof name === 'object' && name !== null) ? name.given   : null,
+    surname:            (typeof name === 'object' && name !== null) ? name.surname : null,
     location:           location || null,
     birthSettlement,
     currentSettlement:  finalSettlement,
@@ -5169,7 +5255,7 @@ function ageCharacter({
  *
  * Returns an array of strings suitable for embedding in an NPC file.
  */
-function buildNarrative(history, classChanges, deityChanges) {
+function buildNarrative(history, classChanges, deityChanges, principalSex = 'male') {
   const lines = [];
   let quietStreak = 0;
 
@@ -5185,23 +5271,67 @@ function buildNarrative(history, classChanges, deityChanges) {
       const endAge    = year.age - 1;
       const endYear   = year.year ? year.year - 1 : null;
       const yearRange = startYear ? ` (${startYear}–${endYear} TR)` : '';
-      lines.push(`*(Ages ${startAge}–${endAge}${yearRange}: quiet years)*`);
+      const QUIET_PHRASES = [
+        'quiet years', 'uneventful years', 'years of routine', 'no notable events',
+      ];
+      const quietPhrase = QUIET_PHRASES[Math.floor(rand() * QUIET_PHRASES.length)];
+      lines.push(`*(Ages ${startAge}–${endAge}${yearRange}: ${quietPhrase})*`);
       quietStreak = 0;
     } else {
       quietStreak = 0;  // single quiet year — just skip it silently
     }
 
-    const baseFlavour = year.flavour || year.eventLabel;
-    const notes = [year.flavourNote, year.relationalNote].filter(Boolean);
-    const fullFlavour = notes.length ? `${baseFlavour} ${notes.join(' ')}` : baseFlavour;
+    // baseFlavour: prefer rich flavour text; for witnessed family events with
+    // no flavour, use the relationalNote as it's more specific than the bare label.
+    const isStatusNote = (n) => n && !n.includes(' — ') && !n.match(/[.!?]$/) &&
+      Boolean(n.match(/^(First|Another|Seized|Acquired)/) ||
+       n.match(/^[A-Z][a-z]+ (born|died|left|married|acquired|to a held)/));
+
+    let baseFlavour = year.flavour || year.eventLabel || null;
+    if (!baseFlavour && year.relationalNote && !isStatusNote(year.relationalNote)) {
+      baseFlavour = year.relationalNote;  // use relNote as the display text
+    } else if (!baseFlavour) {
+      baseFlavour = year.label || null;
+    }
+    if (!baseFlavour) continue;  // nothing displayable — skip silently
+
+    const notes = [year.flavourNote, year.relationalNote]
+      .filter(n => n && n !== baseFlavour && !isStatusNote(n));
+
+    const fullFlavour = (notes.length ? `${baseFlavour} ${notes.join(' ')}` : baseFlavour) || '';
     const yearLabel   = year.year ? ` (${year.year} TR)` : '';
-    lines.push(`**Age ${year.age}${yearLabel}** — ${fullFlavour}`);
+    // Duplicate flavour guard: if a long flavour string has appeared before,
+    // use a condensed stand-in rather than repeating verbatim.
+    // Condensed fallbacks — sex-aware where needed, neutral otherwise.
+    // Rotated via seeded rand() to prevent the same phrase repeating across a long profile.
+    const _isFemale = (principalSex === 'female');
+    const CONDENSED_FALLBACKS = [
+      'Another difficult year. Life continued.',
+      'The year passed much as the last had.',
+      _isFemale
+        ? 'She endured. The details were different; the shape was the same.'
+        : 'He endured. The details were different; the shape was the same.',
+      _isFemale
+        ? 'She bore it. The pattern repeated.'
+        : 'He bore it. The pattern repeated.',
+      'The pattern repeated. Nothing notable changed.',
+      'Time passed without incident.',
+      'Another year of ordinary life.',
+      'Life continued in its usual shape.',
+    ];
+    const isDuplicate = fullFlavour.length > 60 && lines.some(l => l.includes(fullFlavour.slice(0, 55)));
+    const displayFlavour = isDuplicate
+      ? CONDENSED_FALLBACKS[Math.floor(rand() * CONDENSED_FALLBACKS.length)]
+      : fullFlavour;
+    lines.push(`**Age ${year.age}${yearLabel}** — ${displayFlavour}`);
   }
 
   // Trailing quiet years
   if (quietStreak > 0) {
     const lastAge = history[history.length - 1]?.age || 0;
-    lines.push(`*(Ages ${lastAge - quietStreak + 1}–${lastAge}: quiet years)*`);
+    const QUIET_PHRASES_T = ['quiet years', 'uneventful years', 'years of routine', 'no notable events'];
+    const quietPhraseT = QUIET_PHRASES_T[Math.floor(rand() * QUIET_PHRASES_T.length)];
+    lines.push(`*(Ages ${lastAge - quietStreak + 1}–${lastAge}: ${quietPhraseT})*`);
   }
 
   // Class changes
@@ -5212,7 +5342,7 @@ function buildNarrative(history, classChanges, deityChanges) {
   // Deity changes
   for (const dc of deityChanges) {
     if (dc.to !== 'ROLL') {
-      lines.push(`**Age ${dc.fromAge}** *(faith change)* — ${dc.note}`);
+      lines.push(`**Age ${dc.fromAge}** *(faith change)* — ${dc.note || 'Faith changed.'}`);
     }
   }
 

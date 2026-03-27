@@ -1,4 +1,4 @@
-# Kaldor NPC Aging Engine — v1.0.0
+# Kaldor NPC Aging Engine — v1.1.2
 
 A biographical simulation engine for HârnWorld Kaldor. Generates fully realised non-player characters who feel like they have actually lived — with plausible life histories, distinct personalities, family connections, and the specific texture of Kaldorian society.
 
@@ -12,7 +12,7 @@ A biographical simulation engine for HârnWorld Kaldor. Generates fully realised
 | Archetypes | **315** |
 | Social classes | **22** |
 | Cultures | **2** (Kaldorian, Pagaelin) |
-| Test suite | **158 tests, 0 failing** |
+| Test suite | **150 fast + 8 heavy = 158 tests, 0 failing** |
 
 ---
 

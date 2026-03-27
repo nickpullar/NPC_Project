@@ -1294,6 +1294,88 @@ const ARCHETYPES = [
     },
   },
 
+  // ── RETIRED MERCHANT ──────────────────────────────────────────────────────
+  // Genuinely wealthy; handed the business over. Rare.
+  {
+    id: 'merchant_retired_patriarch',
+    label: 'Retired Merchant',
+    description: 'He sold the business or handed it to his eldest and has not been in the counting house since. This happened because he could afford for it to happen — the trade network is established, the credit relationships are with the family name rather than his person, and his son or son-in-law can manage the day-to-day in a way that he, watching carefully from a deliberate distance, assesses as adequate. He is not idle. He sits on guild boards, receives visitors, maintains the correspondence that keeps the family\'s reputation sound. He is also, for the first time in forty years, able to read what he chooses before the accounting demands his attention. He finds he does not entirely know who he is when he is not working. He is finding out.',
+    socialClass: 'merchant',
+    validPhases: ['senior'],
+    sex: 'any',
+    populationWeight: 8,
+    settlementBias: { city: 1.5, town: 1.2, village: 0.3, hamlet: 0.0 },
+    minSettlingAge: 55,
+    requireConditions: ['retired'],
+    oceanBias: { O: +8, C: +5, E: -5, A: +5, N: -5 },
+    eventWeightMods: {
+      wisdom_of_years:          +15,
+      memoir_or_chronicle:      +20,
+      mentor_a_youngster:       +15,
+      made_a_donation:          +12,
+      reconciled_old_enemy:     +15,
+      pilgrimage:               +10,
+      contact_deepens:          +10,
+      estate_put_in_order:      +15,
+    },
+    colourWeightMods: {},
+  },
+
+  // ── NOBLE DOWER WIDOW ─────────────────────────────────────────────────────
+  // The noblewoman on her dower property. Still formidable; now on her own terms.
+  {
+    id: 'noble_dower_widow',
+    label: 'Noble Dower Widow',
+    description: 'She moved to the dower property when her son came into the estate, which is how the arrangement was always supposed to work, and she has found that a modest manor of her own is considerably more comfortable than a large manor where someone else makes the decisions. She has opinions about how the main house is being managed — she always has opinions — but she has learned the discipline of keeping them largely to herself except when specifically asked, which she is, more often than her daughter-in-law would prefer. She receives visitors, manages a small household with the efficiency of someone who has managed a large one, corresponds widely, and has discovered that old age on her own terms is something she is well-suited for.',
+    socialClass: 'noble',
+    validPhases: ['senior_noble'],
+    sex: 'female',
+    populationWeight: 12,
+    settlementBias: { city: 0.8, town: 1.0, village: 1.2, hamlet: 0.5 },
+    minSettlingAge: 50,
+    requireConditions: ['retired', 'ever_widowed'],
+    oceanBias: { O: +5, C: +10, E: -5, A: +5, N: -5 },
+    eventWeightMods: {
+      wisdom_of_years:          +20,
+      memoir_or_chronicle:      +15,
+      mentor_a_youngster:       +12,
+      made_a_donation:          +15,
+      reconciled_old_enemy:     +12,
+      contact_deepens:          +12,
+      estate_put_in_order:      +20,
+      pilgrimage:               +12,
+      accepted_limitations:     +10,
+    },
+    colourWeightMods: {},
+  },
+
+  // ── RETIRED ARTISAN MASTER ────────────────────────────────────────────────
+  // Held the franchise, now holds it in name only. The bench runs without him.
+  {
+    id: 'artisan_master_retired',
+    label: 'Retired Artisan Master',
+    description: 'He holds the franchise still — the guild would need him to formally surrender it, which is a production he has not bothered with — but the actual work is done by the journeymen he trained, and the workshop is managed by the one he trusts most, who is probably his son or the apprentice who showed the most judgment. He comes in occasionally. He looks at what is being made and says very little, which is understood to mean approval. When he does say something, the workshop stops and listens. He is not retired the way a wealthy man is retired — he did not hand over a fortune, he handed over a bench — but he has reached the point where his value to the guild is his reputation and his advice, and both of those function without him being present every day.',
+    socialClass: 'artisan',
+    validPhases: ['senior'],
+    sex: 'any',
+    populationWeight: 10,
+    settlementBias: { city: 1.3, town: 1.2, village: 0.8, hamlet: 0.2 },
+    minSettlingAge: 58,
+    requireConditions: ['retired'],
+    oceanBias: { O: +5, C: +8, E: -8, A: +5, N: -8 },
+    eventWeightMods: {
+      wisdom_of_years:          +20,
+      mentor_a_youngster:       +20,
+      memoir_or_chronicle:      +12,
+      contact_deepens:          +10,
+      reconciled_old_enemy:     +10,
+      made_a_donation:           +8,
+      accepted_limitations:     +15,
+    },
+    colourWeightMods: {},
+  },
+
+
   // ═══════════════════════════════════════════════════════════════════════════
   // CRAFTSPERSON — MALE
   // ═══════════════════════════════════════════════════════════════════════════
@@ -9252,6 +9334,40 @@ const ARCHETYPES = [
     colourWeightMods: {},
   },
 
+  // ── BEAST SLAYER ──────────────────────────────────────────────────────────
+  // The man who hunts dangerous animals specifically. Not interested in deer.
+  // Interested in the things that can kill him back.
+
+  {
+    id: 'pagaelin_beast_slayer',
+    label: 'Beast Slayer',
+    description: 'He hunts the things that hunt back. Deer and rabbit feed the camp; the great boar, the marsh cats, the Pagaelin hunting wolf — these are the quarry he wants, and the scar tissue on his arms and the missing tip of one finger are the record of how that wanting has gone. He is not reckless. A reckless man who hunts dangerous animals is a dead man who hunted dangerous animals. He is methodical and patient and willing to wait four days for a position that gives him one clean moment. The teeth and claws he carries home are not trophies exactly — they are proof that the calculation came out right this time. He is aware it does not always. He keeps the teeth anyway.',
+    socialClass: 'pagaelin',
+    sex: 'male',
+    validPhases: ['warrior', 'dominant'],
+    populationWeight: 18,
+    settlementBias: {},
+    minSettlingAge: 20,
+    oceanBias: { O: -5, C: +10, E: -8, A: -15, N: +12 },
+    eventWeightMods: {
+      pagaelin_raid_wounded:               +30,
+      pagaelin_raid_participated:          +20,
+      pagaelin_first_kill:                 +20,
+      pagaelin_chieftain_killed:           +15,
+      serious_wound:                       +30,
+      significant_injury:                  +25,
+      scarred_from_violence:               +30,
+      maimed:                              +20,
+      near_death_experience:               +25,
+      pagaelin_saraen_hunt_rite:           +20,
+    },
+    colourWeightMods: {
+      colour_pagaelin_watching_the_dark:   +15,
+      colour_pagaelin_before_the_hunt:     +20,
+    },
+  },
+
+
   // ── HERDER (25% of population) ────────────────────────────────────────────
   // Moves animals across the heath. Less directly violent than hunters but
   // armed and capable. Women can be herders.
@@ -9590,6 +9706,37 @@ const ARCHETYPES = [
       colour_pagaelin_old_man_watching:    +12,
     },
   },
+  // ── SCARRED ARBITER ──────────────────────────────────────────────────────
+  // The old warrior who keeps peace through the credible threat of past violence.
+
+  {
+    id: 'pagaelin_scarred_arbiter',
+    label: 'Scarred Arbiter',
+    description: 'He has been in more serious violence than almost anyone in the camp who is still alive, and the way he carries that fact — in the set of his jaw and the specific stillness that comes over him when two men are about to do something stupid — is the instrument he uses to keep peace. Not by restraining anyone. By standing close enough that they remember what happened to the last man who did not stop. He has scars on his neck and hands and one eye that does not open all the way, and he has stopped counting them the way a man stops counting the years at a certain point. He sits disputes now. He listens to both sides with the patience of a hunter and he renders a judgment, and the judgment is enforced not by any formal authority but by the fact that everyone in earshot knows what he used to do to people who did not accept his judgments.',
+    socialClass: 'pagaelin',
+    sex: 'male',
+    validPhases: ['elder_male'],
+    populationWeight: 16,
+    settlementBias: {},
+    minSettlingAge: 46,
+    oceanBias: { O: -1, C: +3, E: -5, A: +2, N: +5 },
+    eventWeightMods: {
+      pagaelin_elder_useful:               +25,
+      pagaelin_gave_sage_advice:           +25,
+      pagaelin_son_made_first_kill:        +20,
+      pagaelin_taught_grandchild_skill:    +25,
+      colour_pagaelin_elder_sons_watching: +25,
+      pagaelin_chieftain_killed:           +15,
+      serious_wound:                       +15,
+      significant_injury:                  +10,
+      colour_pagaelin_old_man_watching:    +20,
+    },
+    colourWeightMods: {
+      colour_pagaelin_elder_sons_watching: +25,
+      colour_pagaelin_old_man_watching:    +20,
+    },
+  },
+
 
   {
     id: 'pagaelin_former_chieftain',
@@ -9795,6 +9942,40 @@ const ARCHETYPES = [
       colour_pagaelin_walker_dream:        +20,
     },
   },
+  // ── WALKER PROPHETESS ───────────────────────────────────────────────────
+  // Not formally initiated — but the tribe fears her and defers to her anyway.
+  // Her power is outside the lodge structure, which makes her harder to control.
+
+  {
+    id: 'pagaelin_walker_prophetess',
+    label: 'Walker Prophetess',
+    description: 'She has not been through the Akan-shri ordeal. The augurs have not named her. None of that has stopped the women in the camp from coming to her at night with questions they will not ask the shaman, and the men from avoiding her gaze because of the three times her words preceded something terrible by less than a week. She says she speaks with the dead. The dead she claims to speak with are specific — named people, recently gone — and the things she claims they say are particular enough to be either uncanny knowledge or very careful attention to the living. The tribe has not decided which. She has not encouraged them to decide. She demands blood offerings before she will speak — animal blood, usually, though she is not always specific — and she has guided two raids through descriptions of routes she could not have scouted herself. Both raids succeeded. She is not soft. Her savagery is spiritual and it reaches further than a spear.',
+    socialClass: 'pagaelin',
+    sex: 'female',
+    validPhases: ['held_woman', 'elder_female'],
+    populationWeight: 10,
+    settlementBias: {},
+    minSettlingAge: 28,
+    oceanBias: { O: +3, C: +8, E: -8, A: -2, N: +4 },
+    requireConditions: [],
+    eventWeightMods: {
+      colour_pagaelin_walker_dream:        +40,
+      colour_pagaelin_dream_structure:     +40,
+      colour_pagaelin_raven_omen:          +35,
+      pagaelin_shaman_calling:             +30,
+      pagaelin_shaman_healing:             +30,
+      pagaelin_shaman_failure:             +25,
+      pagaelin_taught_by_shaman:           +25,
+      pagaelin_consulted_against_walker:   +20,
+      colour_pagaelin_teaching_daughters_plants: +20,
+    },
+    colourWeightMods: {
+      colour_pagaelin_walker_dream:        +40,
+      colour_pagaelin_raven_omen:          +35,
+      colour_pagaelin_dream_structure:     +40,
+    },
+  },
+
 
 
   // ── MALE CHIEFTAIN variants ───────────────────────────────────────────────
