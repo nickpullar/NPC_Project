@@ -28,6 +28,23 @@
 
 const LIFE_EVENTS = require('./life-events').LIFE_EVENTS;
 
+// ── Deterministic RNG for injection ─────────────────────────────────────────
+// Math.random() was used for child sex rolls, making injected children
+// non-reproducible. We derive a seed from the result object so that the
+// same NPC always gets the same injected children.
+function _injHash(s) {
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619) >>> 0;
+  }
+  return h >>> 0;
+}
+function _injMkRng(seed) {
+  let s = seed >>> 0;
+  return () => { s = (Math.imul(s, 1664525) + 1013904223) >>> 0; return s / 0x100000000; };
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // PLAUSIBLE AGE WINDOWS FOR EVENT INJECTION
 // Keys are event IDs. Values are { min, max } age ranges.
@@ -203,7 +220,6 @@ function verifyConstraints(result, constraints) {
   const missing   = [];
   const forbidden = [];
 
-  const condSet   = new Set(result.attributes ? [] : []);  // unused — use conditions array
   const finalConds = new Set(result.conditions || []);
   const eventIds  = new Set((result.history || []).map(e => e.eventId));
   const aliveChildren = (result.children || []).filter(c => c.status === 'alive').length;
@@ -263,6 +279,15 @@ function verifyConstraints(result, constraints) {
 function injectConstraints(result, constraints) {
   const log = [];
   const cls = result.socialClass || 'peasant';
+
+  // Deterministic RNG seeded from result identity — same NPC → same child sexes
+  const _injSeed = _injHash(
+    String(result.birthYear ?? 0) + '_' +
+    (typeof result.name === 'object' ? result.name?.full : result.name) + '_' +
+    String(result.history?.length ?? 0) + '_' +
+    String(result.children?.length ?? 0)
+  );
+  const rng = _injMkRng(_injSeed);
 
   // ── 1. Attributes — set directly ────────────────────────────────────────
   for (const [attr, val] of Object.entries(constraints.attributes || {})) {
@@ -397,7 +422,7 @@ function injectConstraints(result, constraints) {
     target.eventLabel = evDef?.label || 'Child born';
     target.flavour    = (result.sex === 'female' ? evDef?.flavour?.female : evDef?.flavour?.male) || '';
 
-    const childSex = Math.random() < 0.5 ? 'male' : 'female';
+    const childSex = rng() < 0.5 ? 'male' : 'female';
     const childName   = childSex === 'male'
       ? ['Aldric','Bram','Cavan','Donal','Edric'][childIdx % 5]
       : ['Aine','Brea','Ciara','Dana','Erin'][childIdx % 5];
@@ -480,7 +505,7 @@ function injectConstraints(result, constraints) {
     target.eventLabel = evDef?.label || 'Child dies';
     target.flavour    = (result.sex === 'female' ? evDef?.flavour?.female : evDef?.flavour?.male) || '';
 
-    const childSex = Math.random() < 0.5 ? 'male' : 'female';
+    const childSex = rng() < 0.5 ? 'male' : 'female';
     const childName   = childSex === 'male'
       ? ['Fynn','Gareth','Hewn'][i % 3]
       : ['Fiona','Gwen','Hilde'][i % 3];

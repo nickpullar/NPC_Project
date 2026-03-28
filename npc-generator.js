@@ -494,13 +494,57 @@ function generatePersonality(socialClass = null, sex = null, maxTraitCount = nul
     .sort((a, b) => b.weight - a.weight)
     .slice(0, maxTraits);
 
-  if (ranked.length === 0) return 'Character is very boring';
+  if (ranked.length === 0) return 'Character\'s temperament is unremarkable — no strongly dominant traits.';
 
   const traitTexts = ranked.map(a => a.trait.toLowerCase());
-  if (traitTexts.length === 1) return `Character is ${traitTexts[0]}`;
-  if (traitTexts.length === 2) return `Character is ${traitTexts[0]} and ${traitTexts[1]}`;
-  const last = traitTexts.pop();
-  return `Character is ${traitTexts.join(', ')} and ${last}`;
+  // Noun forms for traits used with "Marked by" — adjectives read awkwardly
+  // ("Marked by dreamer") so we remap to grammatically correct nouns.
+  const TRAIT_NOUNS = {
+    'aloof': 'aloofness', 'ambitious': 'ambition', 'anxious': 'anxiety',
+    'calm': 'calm', 'closed-minded': 'closed-mindedness',
+    'compassionate': 'compassion', 'composed': 'composure',
+    'confident': 'confidence', 'considerate': 'consideration',
+    'conventional': 'conventionality', 'cooperative': 'cooperativeness',
+    'creative': 'creativity', 'critical': 'critical thinking',
+    'curious': 'curiosity', 'disagreeable': 'disagreeableness',
+    'disciplined': 'discipline', 'dogmatic': 'dogmatism',
+    'enthusiastic': 'enthusiasm', 'friendly': 'friendliness',
+    'grounded': 'groundedness', 'imaginative': 'imagination',
+    'impulsive': 'impulsiveness', 'inflexible': 'inflexibility',
+    'introverted': 'introversion', 'lackadaisical': 'indolence',
+    'level-headed': 'level-headedness', 'methodical': 'methodical thinking',
+    'outgoing': 'sociability', 'practical': 'practicality',
+    'quiet': 'quietness', 'realistic': 'realism', 'reserved': 'reserve',
+    'responsible': 'responsibility', 'rigid': 'rigidity',
+    'self-assured': 'self-assurance', 'self-doubting': 'self-doubt',
+    'sensitive': 'sensitivity', 'skeptical': 'skepticism',
+    'sociable': 'sociability', 'solitary': 'solitariness',
+    'spontaneous': 'spontaneity', 'tolerant': 'tolerance',
+    'tough-minded': 'toughness', 'understated': 'understatement',
+    'unreliable': 'unreliability', 'withdrawn': 'withdrawal',
+    'worried': 'worry',
+  };
+  const toNoun = (t) => TRAIT_NOUNS[t] || t;
+  // Vary the personality opening to avoid repetitive "Character is X" phrasing
+  const OPENINGS = [
+    (traits) => `Character is ${traits}`,
+    (traits) => `${traits.charAt(0).toUpperCase() + traits.slice(1)} by temperament`,
+    (traits) => `Displays ${traits} tendencies`,
+    // "Marked by" uses noun forms for grammatical correctness
+    (traits, nouns) => `Marked by ${nouns}`,
+  ];
+  const openingIdx = Math.floor(rand() * OPENINGS.length);
+  const opening = OPENINGS[openingIdx];
+  const nounTexts = traitTexts.map(toNoun);
+  if (traitTexts.length === 1) return opening(traitTexts[0], nounTexts[0]);
+  if (traitTexts.length === 2) return opening(
+    `${traitTexts[0]} and ${traitTexts[1]}`,
+    `${nounTexts[0]} and ${nounTexts[1]}`);
+  const lastTrait = traitTexts.pop();
+  const lastNoun  = nounTexts.pop();
+  return opening(
+    `${traitTexts.join(', ')} and ${lastTrait}`,
+    `${nounTexts.join(', ')} and ${lastNoun}`);
 }
 
 // ============================================================================

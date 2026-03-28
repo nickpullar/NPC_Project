@@ -81,6 +81,11 @@ function stubVaultPath(location, fullName) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function renderFrontmatter(npc) {
+  // Safely resolve name regardless of whether it's a string or legacy object
+  const _npcFullName = typeof npc.name === 'string'
+    ? npc.name
+    : (npc.name?.full ?? (npc.given && npc.surname ? `${npc.given} ${npc.surname}` : null))
+    ?? 'Unknown';
   const playerConditions = (npc.conditions || [])
     .filter(c => !GM_ONLY_CONDITIONS.has(c));
 
@@ -96,11 +101,11 @@ function renderFrontmatter(npc) {
 
   const lines = [
     '---',
-    `id: ${toSlug(npc.name?.full || 'unknown')}${npc.location ? '-' + toSlug(npc.location) : ''}`,
+    `id: ${toSlug(_npcFullName || 'unknown')}${npc.location ? '-' + toSlug(npc.location) : ''}`,
     `type: full`,
-    `name: "${npc.name?.full || 'Unknown'}"`,
-    `given: "${npc.name?.given || ''}"`,
-    `surname: "${npc.name?.surname || ''}"`,
+    `name: "${_npcFullName}"`,
+    `given: "${npc.given || ''}"`,
+    `surname: "${npc.surname || ''}"`,
     `sex: ${npc.sex}`,
     `socialClass: ${npc.socialClass}`,
     `age: ${npc.age}`,
@@ -120,7 +125,10 @@ function renderFrontmatter(npc) {
 }
 
 function renderTitle(npc) {
-  return `# ${npc.name?.full || 'Unknown'}`;
+  const _titleName = typeof npc.name === 'string'
+    ? npc.name
+    : (npc.name?.full ?? (npc.given && npc.surname ? `${npc.given} ${npc.surname}` : 'Unknown'));
+  return `# ${_titleName}`;
 }
 
 function renderGMCallout(npc) {
@@ -544,7 +552,7 @@ function renderFamily(npc) {
 
 function renderBackground(npc) {
   if (!npc.narrative?.length) return '';
-  const body = npc.narrative.map(l => `> ${l}`).join('\n');
+  const body = npc.narrative.filter(Boolean).map(l => `> ${l || ''}`).join('\n');
   return `> [!background] Background\n${body}`;
 }
 
@@ -574,6 +582,171 @@ function renderRelationships(npc) {
  * @param {object} npc  — output of ageCharacter / generateNPCProfile
  * @returns {string}    — full markdown content
  */
+function renderExtendedFamily(npc) {
+  const ext = npc.extendedFamily;
+  if (!ext) return '';
+
+  const lines = ['> [!family] Extended Family'];
+  const REL_ICON = { close:'★', cordial:'◆', distant:'◇', estranged:'⚠', hostile:'✖' };
+
+  // ── Helper: status string ──────────────────────────────────────────────────
+  const statusStr = (m, gameYear = 720) => {
+    if (m.status === 'alive') {
+      const age = gameYear - m.birthYear;
+      return `alive, ~${age}`;
+    }
+    return m.diedAge ? `d. age ${m.diedAge}` : 'deceased';
+  };
+
+  // ── GRANDPARENTS ───────────────────────────────────────────────────────────
+  lines.push('>');
+  lines.push('> **Grandparents**');
+  const { paternal, maternal } = ext.grandparents;
+  for (const side of [paternal, maternal]) {
+    const label = side.side === 'paternal' ? 'Paternal' : 'Maternal';
+    const gf = side.grandfather, gm = side.grandmother;
+    lines.push(`> - *${label}:* ${gf.name} (${statusStr(gf)}) & ${gm.name} (${statusStr(gm)})`);
+  }
+
+  // ── UNCLE/AUNT UNITS ───────────────────────────────────────────────────────
+  const allUnits = [...ext.paternalUnits, ...ext.maternalUnits];
+  if (allUnits.length > 0) {
+    lines.push('>');
+    lines.push('> **Aunts & Uncles — Family Units**');
+    lines.push('> ');
+    lines.push('> | Uncle | Status | Wives | Relationship | Notable events |');
+    lines.push('> |---|---|---|---|---|');
+    for (const unit of allUnits) {
+      const u   = unit.patriarch;
+      const rel = u.relationship;
+      const icon = REL_ICON[rel] ?? '◇';
+      const wivesSummary = unit.wives.map(w => w.given + (w.status === 'deceased' ? ' †' : '')).join(', ') || '—';
+      const lastEvt = unit.familyEvents.length
+        ? `${unit.familyEvents[unit.familyEvents.length-1].year} TR: ${unit.familyEvents[unit.familyEvents.length-1].label.split('—')[0].trim()}`
+        : '—';
+      const sideLabel = u.role === 'paternal_uncle' ? 'Pat.' : 'Mat.';
+      lines.push(`> | **${u.name}** *(${sideLabel}, ${statusStr(u)})* | ${u.status} | ${wivesSummary} | ${icon} ${rel} | ${lastEvt} |`);
+    }
+
+    // ── COUSINS ───────────────────────────────────────────────────────────────
+    const allCousins = allUnits.flatMap(u => u.children).filter(c => c.status === 'alive');
+    if (allCousins.length > 0) {
+      lines.push('>');
+      lines.push(`> **Cousins** (${allCousins.length} living)`);
+      lines.push('> ');
+      lines.push('> | Name | Sex | ~Age | Relationship |');
+      lines.push('> |---|---|---|---|');
+      for (const c of allCousins) {
+        const age  = Math.max(0, (npc.gameYear ?? 720) - c.birthYear);
+        const icon = REL_ICON[c.relationship] ?? '◇';
+        lines.push(`> | ${c.name} | ${c.sex} | ${age} | ${icon} ${c.relationship} |`);
+      }
+    }
+  }
+
+  // ── NEPHEWS / NIECES ───────────────────────────────────────────────────────
+  const living = ext.nephewNiece.filter(nn => nn.status === 'alive');
+  if (living.length > 0) {
+    lines.push('>');
+    lines.push(`> **Nephews & Nieces** (${living.length} living)`);
+    lines.push('> ');
+    lines.push('> | Name | Role | ~Age | Via | Relationship |');
+    lines.push('> |---|---|---|---|---|');
+    for (const nn of living) {
+      const age  = Math.max(0, (npc.gameYear ?? 720) - nn.birthYear);
+      const icon = REL_ICON[nn.relationship] ?? '◇';
+      lines.push(`> | ${nn.name} | ${nn.role} | ${age} | ${nn.parentName} | ${icon} ${nn.relationship} |`);
+    }
+  }
+
+  // ── FAMILY EVENTS SUMMARY (all units) ─────────────────────────────────────
+  if (allUnits.some(u => u.familyEvents.length > 0)) {
+    lines.push('>');
+    lines.push('> **Extended Family Chronicle** *(significant events, by branch)*');
+    for (const unit of allUnits.filter(u => u.familyEvents.length > 0)) {
+      const sideLabel = unit.patriarch.role === 'paternal_uncle' ? 'Paternal' : 'Maternal';
+      lines.push(`> - **${unit.patriarch.given}\'s family** *(${sideLabel}):*`);
+      // Show last 3 events only — keeps it readable
+      const shown = unit.familyEvents.slice(-3);
+      for (const evt of shown) {
+        lines.push(`>   - ${evt.year} TR — ${evt.label}`);
+      }
+    }
+  }
+
+  // ── MERMAID FAMILY TREE ───────────────────────────────────────────────────
+  const mLines = ['```mermaid', 'graph TD'];
+
+  // Grandparents
+  const pgf = paternal.grandfather, pgm = paternal.grandmother;
+  const mgf = maternal.grandfather, mgm = maternal.grandmother;
+  mLines.push(`  PGF["${pgf.given}${pgf.status==='deceased'?' †':''}"]`);
+  mLines.push(`  PGM["${pgm.given}${pgm.status==='deceased'?' †':''}"]`);
+  mLines.push(`  MGF["${mgf.given}${mgf.status==='deceased'?' †':''}"]`);
+  mLines.push(`  MGM["${mgm.given}${mgm.status==='deceased'?' †':''}"]`);
+
+  // Parents
+  const father = npc.parents?.find(p=>p.role==='father');
+  const mother = npc.parents?.find(p=>p.role==='mother');
+  if (father) {
+    mLines.push(`  DAD["${father.given||father.name}${father.status==='deceased'?' †':''}"]`);
+    mLines.push(`  PGF --- DAD`);
+    mLines.push(`  PGM --- DAD`);
+  }
+  if (mother) {
+    mLines.push(`  MOM["${mother.given||mother.name}${mother.status==='deceased'?' †':''}"]`);
+    mLines.push(`  MGF --- MOM`);
+    mLines.push(`  MGM --- MOM`);
+  }
+
+  // Principal
+  const pName = npc.given || npc.name || 'Principal';
+  mLines.push(`  PC(["**${pName}** ← you"])`);
+  if (father) mLines.push(`  DAD --- PC`);
+  if (mother) mLines.push(`  MOM --- PC`);
+
+  // Siblings (up to 4)
+  for (const [i, sib] of (npc.siblings ?? []).slice(0,4).entries()) {
+    const sid = `SIB${i}`;
+    const rel = sib.relationship === 'hostile' ? '✖' : sib.relationship === 'estranged' ? '⚠' : '';
+    mLines.push(`  ${sid}["${sib.given||sib.name}${sib.status==='deceased'?' †':''} ${rel}"]`);
+    if (father) mLines.push(`  DAD --- ${sid}`);
+    if (mother) mLines.push(`  MOM --- ${sid}`);
+  }
+
+  // Uncle units (up to 4 to keep diagram readable)
+  for (const [i, unit] of allUnits.slice(0,4).entries()) {
+    const u   = unit.patriarch;
+    const uid = `UNC${i}`;
+    const rel = u.relationship === 'hostile' ? '✖' : u.relationship === 'estranged' ? '⚠' : '';
+    mLines.push(`  ${uid}["${u.given} ${rel}${u.status==='deceased'?' †':''}"]`);
+    const parentNode = u.role === 'paternal_uncle' ? 'PGF' : 'MGF';
+    mLines.push(`  ${parentNode} --- ${uid}`);
+    // Cousins (up to 2 per uncle)
+    for (const [j, c] of unit.children.slice(0,2).entries()) {
+      const cid = `COU${i}_${j}`;
+      mLines.push(`  ${cid}["${c.given}${c.status==='deceased'?' †':''}"]`);
+      mLines.push(`  ${uid} --- ${cid}`);
+    }
+  }
+
+  // Principal's children (up to 4)
+  for (const [i, c] of (npc.children ?? []).filter(c=>c.status==='alive').slice(0,4).entries()) {
+    const cid = `CHI${i}`;
+    mLines.push(`  ${cid}["${c.given||c.name}"]`);
+    mLines.push(`  PC --- ${cid}`);
+  }
+
+  mLines.push('```');
+  lines.push('>');
+  lines.push('> **Family Tree**');
+  lines.push('>');
+  // Indent mermaid block inside callout
+  mLines.forEach(ml => lines.push('> ' + ml));
+
+  return lines.join('\n');
+}
+
 function renderNPC(npc) {
   const sections = [
     renderFrontmatter(npc),
@@ -583,6 +756,7 @@ function renderNPC(npc) {
     renderConditions(npc),
     renderSkills(npc),
     renderFamily(npc),
+    renderExtendedFamily(npc),
     renderBackground(npc),
     renderRelationships(npc),
     renderLocation(npc),
@@ -607,6 +781,18 @@ function renderStub(stub, location = null) {
   const tags = ['npc', 'stub', stub.socialClass || 'unknown', stub.sex || 'unknown'];
   if (location) tags.push(toSlug(location));
 
+  // Serialise sharedEvents for round-trip recovery by parseStubFromMarkdown / expandStub.
+  // Filters out preHistory entries (pre-age-18) — same filter expandStub applies.
+  const serialisedSharedEvents = (stub.sharedEvents || [])
+    .filter(e => !e.preHistory)
+    .map(e => ({
+      eventId:  e.eventId,
+      ageMin:   e.ageMin,
+      ageMax:   e.ageMax,
+      pool:     e.pool || 'family',
+      ...(e.principalAge != null ? { principalAge: e.principalAge } : {}),
+    }));
+
   const frontmatter = [
     '---',
     `id: ${toSlug(stub.name)}`,
@@ -620,6 +806,9 @@ function renderStub(stub, location = null) {
     ...(location ? [`location: "[[${location}]]"`] : []),
     `status: ${stub.status}`,
     `tags: [${tags.join(', ')}]`,
+    ...(serialisedSharedEvents.length > 0
+      ? [`sharedEvents: ${JSON.stringify(serialisedSharedEvents)}`]
+      : []),
     '---',
     '',
     `# ${stub.name}`,
@@ -667,6 +856,12 @@ function renderStub(stub, location = null) {
   gmLines.push(`>`);
   gmLines.push(`> Promote with \`expandStub(stub, gameYear)\` to generate a full history.`);
 
+  // FIX-006: surface sharedEvents count so GMs know the stub carries family history
+  if (serialisedSharedEvents.length > 0) {
+    gmLines.push(`> **Shared family events:** ${serialisedSharedEvents.length} recorded`);
+    gmLines.push(`> (stored in YAML frontmatter; replayed on promotion)`);
+  }
+
   return [...frontmatter, '', ...gmLines].join('\n') + '\n';
 }
 
@@ -682,7 +877,7 @@ function renderStub(stub, location = null) {
  * @returns {{ npcPath, stubPaths }}
  */
 function writeNPCToVault(npc, vaultRoot) {
-  const fullName   = npc.name?.full || 'Unknown';
+  const fullName   = npc.name || 'Unknown';
   const location   = npc.location  || null;
   const relPath    = npcVaultPath(location, fullName);
   const absPath    = path.join(vaultRoot, relPath);
@@ -725,7 +920,7 @@ function writeNPCToVault(npc, vaultRoot) {
  */
 function promoteStubToFull(stub, fullNPC, vaultRoot) {
   const location  = fullNPC.location || null;
-  const fullName  = fullNPC.name?.full || stub.name;
+  const fullName  = fullNPC.name || stub.name;
 
   // Remove old stub file if it exists
   const oldStubAbs = path.join(vaultRoot, stubVaultPath(location, stub.name));
@@ -740,9 +935,99 @@ function promoteStubToFull(stub, fullNPC, vaultRoot) {
 // EXPORTS
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * FIX-007: parseStubFromMarkdown(markdownString)
+ *
+ * Parses a stub Markdown file back into a stub object suitable for
+ * passing directly to expandStub(stub, gameYear).
+ *
+ * Reads the YAML frontmatter block between the opening and closing '---'
+ * lines. Handles the sharedEvents JSON array written by renderStub (FIX-006)
+ * so that expandStub can replay the genuine shared family history.
+ *
+ * Returns null if the string is not a recognisable stub document (missing
+ * frontmatter, missing required fields, or type !== 'lightweight').
+ *
+ * @param  {string} markdownString — raw content of a stub .md file
+ * @returns {object|null}           — stub object ready for expandStub, or null
+ */
+function parseStubFromMarkdown(markdownString) {
+  if (typeof markdownString !== 'string') return null;
+
+  // ── Extract frontmatter block ──────────────────────────────────────────────
+  // The block is delimited by the first and second '---' lines (YAML front matter).
+  const lines = markdownString.split(/\r?\n/);
+  let fmStart = -1, fmEnd = -1;
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i].trim() === '---') {
+      if (fmStart === -1)      { fmStart = i; }
+      else if (fmEnd === -1)   { fmEnd   = i; break; }
+    }
+  }
+  if (fmStart === -1 || fmEnd === -1 || fmEnd <= fmStart + 1) return null;
+
+  const fmLines = lines.slice(fmStart + 1, fmEnd);
+
+  // ── Parse key: value pairs ─────────────────────────────────────────────────
+  // Handles:
+  //   scalar:   key: value
+  //   quoted:   key: "value"
+  //   JSON:     sharedEvents: [{...}, ...]
+  const fm = {};
+  for (const line of fmLines) {
+    const colonIdx = line.indexOf(':');
+    if (colonIdx === -1) continue;
+    const key   = line.slice(0, colonIdx).trim();
+    const raw   = line.slice(colonIdx + 1).trim();
+    if (!key) continue;
+
+    // JSON array or object value (sharedEvents, tags-as-array)
+    if (raw.startsWith('[') || raw.startsWith('{')) {
+      try   { fm[key] = JSON.parse(raw); }
+      catch { fm[key] = raw; }           // leave as string if parse fails
+    } else {
+      // Strip surrounding quotes if present
+      fm[key] = raw.replace(/^["']|["']$/g, '');
+    }
+  }
+
+  // ── Validate ───────────────────────────────────────────────────────────────
+  if (fm.type !== 'lightweight') return null;
+  if (!fm.name || !fm.sex || !fm.socialClass) return null;
+
+  // ── Build stub object ──────────────────────────────────────────────────────
+  // Mirror the shape that ageCharacter / expandStub expects.
+  const stub = {
+    name:        fm.name,
+    given:       fm.name.split(' ')[0] || fm.name,
+    surname:     fm.name.split(' ').slice(1).join(' ') || '',
+    sex:         fm.sex,
+    socialClass: fm.socialClass,
+    role:        fm.role || 'unknown',
+    status:      fm.status || 'alive',
+    birthYear:   fm.birthYear  != null ? Number(fm.birthYear)  : null,
+    stubSeed:    fm.stubSeed   != null ? Number(fm.stubSeed)   : null,
+    // sharedEvents: written as JSON array by renderStub (FIX-006)
+    // Restored verbatim; expandStub will apply its own preHistory/narrative filter.
+    sharedEvents: Array.isArray(fm.sharedEvents) ? fm.sharedEvents : [],
+  };
+
+  // Role-specific fields
+  if (fm.marriedAtPrincipalAge != null) stub.marriedAtPrincipalAge = Number(fm.marriedAtPrincipalAge);
+  if (fm.ageAtMarriage         != null) stub.ageAtMarriage         = Number(fm.ageAtMarriage);
+  if (fm.bornAtPrincipalAge    != null) stub.bornAtPrincipalAge    = Number(fm.bornAtPrincipalAge);
+  if (fm.diedAge               != null) stub.diedAge               = Number(fm.diedAge);
+  if (fm.disability            != null) stub.disability            = fm.disability;
+  if (fm.rhPositive            != null) stub.rhPositive            = fm.rhPositive === 'true';
+
+  return stub;
+}
+
 module.exports = {
   renderNPC,
+  renderExtendedFamily,
   renderStub,
+  parseStubFromMarkdown,
   writeNPCToVault,
   promoteStubToFull,
   npcVaultPath,

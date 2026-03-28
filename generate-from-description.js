@@ -366,8 +366,13 @@ async function generateFromDescription(constraintsOrRaw, options = {}) {
   const targetAge = constraints.targetAge ?? 35;
   const startingConditions = buildStartingConditions(constraints);
 
+  // Map 'craftsperson' to the engine's canonical class name 'artisan'.
+  // The engine has no 'craftsperson' class; callers may use either term.
+  const _rawClass = constraints.socialClass ?? 'craftsperson';
+  const _socialClass = (_rawClass === 'craftsperson') ? 'artisan' : _rawClass;
+
   const baseParams = {
-    socialClass:      constraints.socialClass      ?? 'craftsperson',
+    socialClass:      _socialClass,
     sex:           constraints.sex           ?? 'female',
     targetAge,
     hobbySkill:       constraints.hobbySkill       ?? null,

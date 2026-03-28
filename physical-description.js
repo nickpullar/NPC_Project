@@ -394,9 +394,21 @@ async function generatePhysicalDescription(npc, seed) {
   const profile = generatePhysical(npc, seed);
   const prompt  = buildPhysicalPrompt(npc, profile);
 
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    throw new Error(
+      'ANTHROPIC_API_KEY environment variable is required for generatePhysicalDescription. ' +
+      'Set it before calling this function, or use generatePhysical() for the non-AI path.'
+    );
+  }
+
   const response = await fetch('https://api.anthropic.com/v1/messages', {
     method:  'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type':    'application/json',
+      'x-api-key':       apiKey,
+      'anthropic-version': '2023-06-01',
+    },
     body: JSON.stringify({
       model:      'claude-sonnet-4-20250514',
       max_tokens: 250,
